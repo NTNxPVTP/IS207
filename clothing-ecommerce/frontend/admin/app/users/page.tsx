@@ -68,8 +68,26 @@ export default function UsersPage() {
     )
   }
 
+  const [message, setMessage] = useState('');
+
+  const handleClick = async () => {
+    try {
+      const response = await fetch('http://127.0.0.1:8000/api/hello');
+      const data = await response.json();
+      setMessage(data.message);
+    } catch (error) {
+      console.error('Lỗi gọi API:', error);
+      setMessage('Có lỗi xảy ra!');
+    }
+  };
+
   return (
     <div className="flex-1 space-y-4 p-8 pt-6">
+      <button onClick={handleClick}>Click để gọi Laravel API</button>
+
+      {message && (
+        <p style={{ marginTop: '20px', fontWeight: 'bold' }}>{message}</p>
+      )}
       <div className="flex items-center justify-between">
         <h2 className="text-3xl font-bold tracking-tight">User Management</h2>
       </div>

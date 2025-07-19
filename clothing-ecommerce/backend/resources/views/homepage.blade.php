@@ -6,6 +6,6 @@
     @vite('resources/tsx/page.tsx')
 </head>
 <body>
-    <div id="page"></div>
+    <div id="page">hello</div>
 </body>
 </html>

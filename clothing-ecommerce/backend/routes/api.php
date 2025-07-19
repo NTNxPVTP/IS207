@@ -19,7 +19,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 
-Route::get('/', function () {
+Route::get('/hello', function () {
     return response()->json([
         'message' => 'Xin chào từ Laravel!',
     ]);
