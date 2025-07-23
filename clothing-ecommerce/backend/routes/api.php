@@ -26,9 +26,9 @@ Route::get('/hello', function () {
     ]);
 });
 
-Route::get('/hello', function () {
-    $user = DB::table('user')->get();
-    return response()->json([
-       $user
-    ]);
-});
+// Route::get('/hello', function () {
+//     $user = DB::table('user')->get();
+//     return response()->json([
+//        $user
+//     ]);
+// });

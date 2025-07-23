@@ -83,22 +83,22 @@ export default function UsersPage() {
     }
   };
 
-  const [customers, setCustomers] = useState([]);
+  // const [customers, setCustomers] = useState([]);
 
-  const getCustomers = async () => {
-    try {
-      const response = await fetch('http://127.0.0.1:8000/api/hello');
-      const data = await response.json();
-      setCustomers(data);
-    } catch (error) {
-      console.error('Lỗi gọi API:', error);
-      setMessage('Có lỗi xảy ra!');
-    }
-  }
-  
-  useEffect(() => {
-    getCustomers();
-  }, []);
+  // const getCustomers = async () => {
+  //   try {
+  //     const response = await fetch('http://127.0.0.1:8000/api/hello');
+  //     const data = await response.json();
+  //     setCustomers(data);
+  //   } catch (error) {
+  //     console.error('Lỗi gọi API:', error);
+  //     setMessage('Có lỗi xảy ra!');
+  //   }
+  // }
+
+  // useEffect(() => {
+  //   getCustomers();
+  // }, []);
 
 
   return (
