@@ -14,7 +14,7 @@ use App\Models\Customer;
 */
 
 Route::get('/', function () {
-    return view('homepage');
+    return view('welcome');
 });
 
 Route::get('/khachhang', function () {
