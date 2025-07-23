@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Models\Customer;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -15,4 +15,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('homepage');
+});
+
+Route::get('/khachhang', function () {
+    $customers = DB::table('orders')->get(); // dùng Query Builder
+    // hoặc: $customers = Customer::all();      // dùng Eloquent
+    return response()->json($customers);
 });

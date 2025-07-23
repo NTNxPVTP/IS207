@@ -1,9 +1,10 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
+
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import {
@@ -46,6 +47,7 @@ const mockUsers = [
   },
 ]
 
+
 export default function UsersPage() {
   const [users, setUsers] = useState(mockUsers)
   const [searchTerm, setSearchTerm] = useState("")
@@ -80,6 +82,24 @@ export default function UsersPage() {
       setMessage('Có lỗi xảy ra!');
     }
   };
+
+  const [customers, setCustomers] = useState([]);
+
+  const getCustomers = async () => {
+    try {
+      const response = await fetch('http://127.0.0.1:8000/api/hello');
+      const data = await response.json();
+      setCustomers(data);
+    } catch (error) {
+      console.error('Lỗi gọi API:', error);
+      setMessage('Có lỗi xảy ra!');
+    }
+  }
+  
+  useEffect(() => {
+    getCustomers();
+  }, []);
+
 
   return (
     <div className="flex-1 space-y-4 p-8 pt-6">
