@@ -48,8 +48,10 @@ const mockUsers = [
 ]
 
 
+
+
 export default function UsersPage() {
-  const [users, setUsers] = useState(mockUsers)
+  const [users, setUsers] = useState([])
   const [searchTerm, setSearchTerm] = useState("")
   const [statusFilter, setStatusFilter] = useState("all")
   const [selectedUser, setSelectedUser] = useState(null)
@@ -103,9 +105,9 @@ export default function UsersPage() {
     }
   }
 
-  // useEffect(() => {
-  //   getCustomers();
-  // }, []);
+  useEffect(() => {
+    getCustomers();
+  }, []);
 
 
   return (
@@ -113,7 +115,7 @@ export default function UsersPage() {
       <button onClick={getCustomers}>Click để gọi Laravel API</button>
 
       {message && (
-        <p style={{ marginTop: '20px', fontWeight: 'bold' }}>{customers[0].name}</p>
+        <p style={{ marginTop: '20px', fontWeight: 'bold' }}>{message.name}</p>
       )}
       <div className="flex items-center justify-between">
         <h2 className="text-3xl font-bold tracking-tight">User Management</h2>
@@ -155,58 +157,58 @@ export default function UsersPage() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {filteredUsers.map((users) => (
-              <TableRow key={users.id}>
-                <TableCell className="font-medium">{users.name}</TableCell>
-                <TableCell>{users.email}</TableCell>
-                <TableCell>{users.registrationDate}</TableCell>
+            {filteredUsers.map((user) => (
+              <TableRow key={user.id}>
+                <TableCell className="font-medium">{user.name}</TableCell>
+                <TableCell>{user.email}</TableCell>
+                <TableCell>{user.registrationDate}</TableCell>
                 <TableCell>
-                  <Badge variant={users.status === "active" ? "default" : "destructive"}>{users.status}</Badge>
+                  <Badge variant={user.status === "active" ? "default" : "destructive"}>{user.status}</Badge>
                 </TableCell>
-                <TableCell>{users.totalOrders}</TableCell>
+                <TableCell>{user.totalOrders}</TableCell>
                 {/* <TableCell>${users.totalSpent.toFixed(2)}</TableCell> */}
-                <TableCell>${users.totalSpent}</TableCell>
+                <TableCell>${user.totalSpent}</TableCell>
                 <TableCell>
                   <div className="flex items-center space-x-2">
                     <Dialog>
                       <DialogTrigger asChild>
-                        <Button variant="outline" size="sm" onClick={() => setSelectedUser(users)}>
+                        <Button variant="outline" size="sm" onClick={() => setSelectedUser(user)}>
                           <Eye className="h-4 w-4" />
                         </Button>
                       </DialogTrigger>
                       <DialogContent>
                         <DialogHeader>
                           <DialogTitle>User Details</ DialogTitle>
-                          <DialogDescription>Detailed information about {users.name}</DialogDescription>
+                          <DialogDescription>Detailed information about {user.name}</DialogDescription>
                         </DialogHeader>
                         <div className="space-y-4">
                           <div>
-                            <strong>Name:</strong> {users.name}
+                            <strong>Name:</strong> {user.name}
                           </div>
                           <div>
-                            <strong>Email:</strong> {users.email}
+                            <strong>Email:</strong> {user.email}
                           </div>
                           <div>
-                            <strong>Registration Date:</strong> {users.registrationDate}
+                            <strong>Registration Date:</strong> {user.registrationDate}
                           </div>
                           <div>
-                            <strong>Status:</strong> {users.status}
+                            <strong>Status:</strong> {user.status}
                           </div>
                           <div>
-                            <strong>Total Orders:</strong> {users.totalOrders}
+                            <strong>Total Orders:</strong> {user.totalOrders}
                           </div>
                           <div>
                             {/* <strong>Total Spent:</strong> ${users.totalSpent.toFixed(2)} */}
-                            <strong>Total Spent:</strong> ${users.totalSpent}
+                            <strong>Total Spent:</strong> ${user.totalSpent}
 
                           </div>
                         </div>
                       </DialogContent>
                     </Dialog>
                     <Button
-                      variant={users.status === "active" ? "destructive" : "default"}
+                      variant={user.status === "active" ? "destructive" : "default"}
                       size="sm"
-                      onClick={() => toggleUserStatus(users.id)}
+                      onClick={() => toggleUserStatus(user.id)}
                     >
                       <UserX className="h-4 w-4" />
                     </Button>

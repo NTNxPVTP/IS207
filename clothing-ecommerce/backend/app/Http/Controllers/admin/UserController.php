@@ -33,7 +33,7 @@ class UserController extends Controller
                 'registrationDate' => optional($user->created_at)->toDateString(),
                 'status' => $user->is_active ? 'active' : 'disabled',
                 'totalOrders' => $user->total_order ?? 0,
-                'totalSpent' => $user->total_spent ?? 0.00,
+                'totalSpent' =>$user->total_spent ?? 0.00,
             ];
         });
 
