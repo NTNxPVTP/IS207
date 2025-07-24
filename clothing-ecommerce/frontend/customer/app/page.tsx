@@ -17,9 +17,6 @@ export default function NikePage() {
           <div className="text-center text-white">
             <h1 className="text-6xl md:text-8xl font-bold tracking-wider mb-4">BRING</h1>
             <h2 className="text-4xl md:text-6xl font-bold tracking-wider mb-8">YOUR GAME</h2>
-            <Button className="bg-white text-black hover:bg-gray-100 px-8 py-3 text-lg font-medium rounded-full">
-              Shop Now
-            </Button>
           </div>
         </div>
 
@@ -112,6 +109,7 @@ export default function NikePage() {
       <section className="max-w-7xl mx-auto px-4 py-12">
         <h2 className="text-2xl font-bold mb-8">Featured</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        {/* women feature  */}
           <div className="relative group cursor-pointer">
             <div className="relative overflow-hidden rounded-lg">
               <Image
@@ -123,11 +121,13 @@ export default function NikePage() {
               />
               <div className="absolute bottom-8 left-8">
                 <h3 className="text-white text-3xl font-bold mb-2">Women's</h3>
-                <Button className="bg-white text-black hover:bg-gray-100 rounded-full px-6 py-2">Shop Now</Button>
+                <Button className="bg-white text-black hover:bg-black hover:text-white rounded-full px-6 py-2 transition-colors duration-300">
+                    Shop Now
+                  </Button>
               </div>
             </div>
           </div>
-
+        {/* men feature  */}
           <div className="relative group cursor-pointer">
             <div className="relative overflow-hidden rounded-lg">
               <Image
@@ -139,7 +139,47 @@ export default function NikePage() {
               />
               <div className="absolute bottom-8 left-8">
                 <h3 className="text-white text-3xl font-bold mb-2">Men's</h3>
-                <Button className="bg-white text-black hover:bg-gray-100 rounded-full px-6 py-2">Shop Now</Button>
+                <Link href="/men">
+                  <Button className="bg-white text-black hover:bg-black hover:text-white rounded-full px-6 py-2 transition-colors duration-300">
+                    Shop Now
+                  </Button>
+                </Link>
+              </div>
+            </div>
+          </div>
+          {/* kids feature  */}
+          <div className="relative group cursor-pointer">
+            <div className="relative overflow-hidden rounded-lg">
+              <Image
+                src="/placeholder.svg?height=400&width=600"
+                alt="!!!"
+                width={600}
+                height={400}
+                className="w-full h-auto group-hover:scale-105 transition-transform duration-300"
+              />
+              <div className="absolute bottom-8 left-8">
+                <h3 className="text-white text-3xl font-bold mb-2">Kids</h3>
+                <Button className="bg-white text-black hover:bg-black hover:text-white rounded-full px-6 py-2 transition-colors duration-300">
+                    Shop Now
+                  </Button>
+              </div>
+            </div>
+          </div>
+          {/* sale feature */}
+          <div className="relative group cursor-pointer">
+            <div className="relative overflow-hidden rounded-lg">
+              <Image
+                src="/placeholder.svg?height=400&width=600"
+                alt="Men's Collection"
+                width={600}
+                height={400}
+                className="w-full h-auto group-hover:scale-105 transition-transform duration-300"
+              />
+              <div className="absolute bottom-8 left-8">
+                <h3 className="text-white text-3xl font-bold mb-2">Sales</h3>
+                <Button className="bg-white text-black hover:bg-black hover:text-white rounded-full px-6 py-2 transition-colors duration-300">
+                    Shop Now
+                  </Button>
               </div>
             </div>
           </div>
