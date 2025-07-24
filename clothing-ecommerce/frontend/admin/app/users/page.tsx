@@ -75,7 +75,10 @@ export default function UsersPage() {
   const handleClick = async () => {
     try {
       const response = await fetch('http://127.0.0.1:8000/api/hello');
+   
+
       const data = await response.json();
+
       setMessage(data.message);
     } catch (error) {
       console.error('Lỗi gọi API:', error);
@@ -83,18 +86,22 @@ export default function UsersPage() {
     }
   };
 
-  // const [customers, setCustomers] = useState([]);
+  
+ 
+  const [customers, setCustomers] = useState([]);
 
-  // const getCustomers = async () => {
-  //   try {
-  //     const response = await fetch('http://127.0.0.1:8000/api/hello');
-  //     const data = await response.json();
-  //     setCustomers(data);
-  //   } catch (error) {
-  //     console.error('Lỗi gọi API:', error);
-  //     setMessage('Có lỗi xảy ra!');
-  //   }
-  // }
+  const getCustomers = async () => {
+    try {
+      const response = await fetch('http://127.0.0.1:8000/admin/users');
+      const data = await response.json();
+      console.log('Dữ liệu từ API:', data);
+
+      setUsers(data);
+    } catch (error) {
+      console.error('Lỗi gọi API:', error);
+      setMessage('Có lỗi xảy ra!');
+    }
+  }
 
   // useEffect(() => {
   //   getCustomers();
@@ -103,10 +110,10 @@ export default function UsersPage() {
 
   return (
     <div className="flex-1 space-y-4 p-8 pt-6">
-      <button onClick={handleClick}>Click để gọi Laravel API</button>
+      <button onClick={getCustomers}>Click để gọi Laravel API</button>
 
       {message && (
-        <p style={{ marginTop: '20px', fontWeight: 'bold' }}>{message}</p>
+        <p style={{ marginTop: '20px', fontWeight: 'bold' }}>{customers[0].name}</p>
       )}
       <div className="flex items-center justify-between">
         <h2 className="text-3xl font-bold tracking-tight">User Management</h2>
@@ -148,55 +155,58 @@ export default function UsersPage() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {filteredUsers.map((user) => (
-              <TableRow key={user.id}>
-                <TableCell className="font-medium">{user.name}</TableCell>
-                <TableCell>{user.email}</TableCell>
-                <TableCell>{user.registrationDate}</TableCell>
+            {filteredUsers.map((users) => (
+              <TableRow key={users.id}>
+                <TableCell className="font-medium">{users.name}</TableCell>
+                <TableCell>{users.email}</TableCell>
+                <TableCell>{users.registrationDate}</TableCell>
                 <TableCell>
-                  <Badge variant={user.status === "active" ? "default" : "destructive"}>{user.status}</Badge>
+                  <Badge variant={users.status === "active" ? "default" : "destructive"}>{users.status}</Badge>
                 </TableCell>
-                <TableCell>{user.totalOrders}</TableCell>
-                <TableCell>${user.totalSpent.toFixed(2)}</TableCell>
+                <TableCell>{users.totalOrders}</TableCell>
+                {/* <TableCell>${users.totalSpent.toFixed(2)}</TableCell> */}
+                <TableCell>${users.totalSpent}</TableCell>
                 <TableCell>
                   <div className="flex items-center space-x-2">
                     <Dialog>
                       <DialogTrigger asChild>
-                        <Button variant="outline" size="sm" onClick={() => setSelectedUser(user)}>
+                        <Button variant="outline" size="sm" onClick={() => setSelectedUser(users)}>
                           <Eye className="h-4 w-4" />
                         </Button>
                       </DialogTrigger>
                       <DialogContent>
                         <DialogHeader>
-                          <DialogTitle>User Details</DialogTitle>
-                          <DialogDescription>Detailed information about {user.name}</DialogDescription>
+                          <DialogTitle>User Details</ DialogTitle>
+                          <DialogDescription>Detailed information about {users.name}</DialogDescription>
                         </DialogHeader>
                         <div className="space-y-4">
                           <div>
-                            <strong>Name:</strong> {user.name}
+                            <strong>Name:</strong> {users.name}
                           </div>
                           <div>
-                            <strong>Email:</strong> {user.email}
+                            <strong>Email:</strong> {users.email}
                           </div>
                           <div>
-                            <strong>Registration Date:</strong> {user.registrationDate}
+                            <strong>Registration Date:</strong> {users.registrationDate}
                           </div>
                           <div>
-                            <strong>Status:</strong> {user.status}
+                            <strong>Status:</strong> {users.status}
                           </div>
                           <div>
-                            <strong>Total Orders:</strong> {user.totalOrders}
+                            <strong>Total Orders:</strong> {users.totalOrders}
                           </div>
                           <div>
-                            <strong>Total Spent:</strong> ${user.totalSpent.toFixed(2)}
+                            {/* <strong>Total Spent:</strong> ${users.totalSpent.toFixed(2)} */}
+                            <strong>Total Spent:</strong> ${users.totalSpent}
+
                           </div>
                         </div>
                       </DialogContent>
                     </Dialog>
                     <Button
-                      variant={user.status === "active" ? "destructive" : "default"}
+                      variant={users.status === "active" ? "destructive" : "default"}
                       size="sm"
-                      onClick={() => toggleUserStatus(user.id)}
+                      onClick={() => toggleUserStatus(users.id)}
                     >
                       <UserX className="h-4 w-4" />
                     </Button>

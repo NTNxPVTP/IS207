@@ -19,12 +19,20 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 
+// Route::get('/hello', function () {
+//     $user = DB::table('user')->where('is_active', 1)->first();
+//     return response()->json([
+//         'message' => $user->name,
+//     ]);
+// });
+
 Route::get('/hello', function () {
-    $user = DB::table('user')->where('is_active', 1)->first();
+    $user = DB::table('user')->where('is_active', 1)->get();
     return response()->json([
-        'message' => $user->name,
+       'message' => $user
     ]);
 });
+
 
 // Route::get('/hello', function () {
 //     $user = DB::table('user')->get();
