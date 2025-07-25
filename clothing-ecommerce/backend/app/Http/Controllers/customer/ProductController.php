@@ -5,7 +5,7 @@ namespace App\Http\Controllers\customer;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\customer\Product;
-
+use Illuminate\Support\Facades\DB;
 class ProductController extends Controller
 {
     // public function index()
@@ -26,7 +26,10 @@ class ProductController extends Controller
     // }
     public function index()
     {
-        return response()->json(product::all(), 200);
+        $products = DB::select("SELECT * FROM product ");
+
+        return response()->json($products, 200);
+        // return response()->json(product::all(), 200);
     }
 
     public function store(Request $request)

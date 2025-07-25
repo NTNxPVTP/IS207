@@ -1,8 +1,9 @@
+"use client"
 import { Header } from "@/components/header"
 import { CategoryHero } from "@/components/category-hero"
 import { ProductGrid } from "@/components/product-grid"
 import { FilterSidebar } from "@/components/filter-sidebar"
-
+import { useEffect, useState } from "react"
 const saleProducts = [
   {
     id: "1",
@@ -79,6 +80,24 @@ const saleProducts = [
 ]
 
 export default function SalePage() {
+  const [products, setProducts] = useState([]);
+      const [message, setMessage] = useState("");
+    
+      const getProduct = async () => {
+        try {
+          const response = await fetch("http://127.0.0.1:8000/customer/product");
+          const data = await response.json();
+          console.log("Dữ liệu từ API:", data);
+          setProducts(data);
+        } catch (error) {
+          console.error("Lỗi gọi API:", error);
+          setMessage("Có lỗi xảy ra!");
+        }
+      };
+    
+      useEffect(() => {
+        getProduct();
+      }, []);
   return (
     <div className="min-h-screen bg-white">
       <Header />
@@ -106,7 +125,7 @@ export default function SalePage() {
               </select>
             </div>
           </div>
-          <ProductGrid products={saleProducts} />
+          <ProductGrid products={products} />
         </div>
       </div>
     </div>
