@@ -1,7 +1,10 @@
+"use client"
+
 import { Header } from "@/components/header"
 import { CategoryHero } from "@/components/category-hero"
 import { ProductGrid } from "@/components/product-grid"
 import { FilterSidebar } from "@/components/filter-sidebar"
+import { useEffect, useState } from "react"
 
 const womenProducts = [
   {
@@ -64,6 +67,24 @@ const womenProducts = [
 ]
 
 export default function WomenPage() {
+  const [products, setProducts] = useState([]);
+    const [message, setMessage] = useState("");
+  
+    const getProduct = async () => {
+      try {
+        const response = await fetch("http://127.0.0.1:8000/customer/product");
+        const data = await response.json();
+        console.log("Dữ liệu từ API:", data);
+        setProducts(data);
+      } catch (error) {
+        console.error("Lỗi gọi API:", error);
+        setMessage("Có lỗi xảy ra!");
+      }
+    };
+  
+    useEffect(() => {
+      getProduct();
+    }, []);
   return (
     <div className="min-h-screen bg-white">
       <Header />
@@ -80,7 +101,7 @@ export default function WomenPage() {
         <div className="flex-1">
           <div className="p-6 border-b">
             <div className="flex justify-between items-center">
-              <h2 className="text-xl font-bold">Women's Shoes & Clothing ({womenProducts.length})</h2>
+              <h2 className="text-xl font-bold">Women's Shoes & Clothing ({products.length})</h2>
               <select className="border rounded px-3 py-2">
                 <option>Featured</option>
                 <option>Newest</option>
@@ -89,7 +110,7 @@ export default function WomenPage() {
               </select>
             </div>
           </div>
-          <ProductGrid products={womenProducts} />
+          <ProductGrid products={products} />
         </div>
       </div>
     </div>

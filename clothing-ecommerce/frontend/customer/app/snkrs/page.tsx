@@ -1,7 +1,10 @@
+"use client"
+
 import { Header } from "@/components/header"
 import { CategoryHero } from "@/components/category-hero"
 import { ProductGrid } from "@/components/product-grid"
 import { Button } from "@/components/ui/button"
+import { useEffect, useState } from "react"
 
 const snkrsProducts = [
   {
@@ -50,6 +53,24 @@ const snkrsProducts = [
 ]
 
 export default function SNKRSPage() {
+  const [products, setProducts] = useState([]);
+      const [message, setMessage] = useState("");
+    
+      const getProduct = async () => {
+        try {
+          const response = await fetch("http://127.0.0.1:8000/customer/product");
+          const data = await response.json();
+          console.log("Dữ liệu từ API:", data);
+          setProducts(data);
+        } catch (error) {
+          console.error("Lỗi gọi API:", error);
+          setMessage("Có lỗi xảy ra!");
+        }
+      };
+    
+      useEffect(() => {
+        getProduct();
+      }, []);
   return (
     <div className="min-h-screen bg-white">
       <Header />
@@ -113,7 +134,7 @@ export default function SNKRSPage() {
             <option>Price: Low-High</option>
           </select>
         </div>
-        <ProductGrid products={snkrsProducts} />
+        <ProductGrid products={products} />
       </div>
     </div>
   )

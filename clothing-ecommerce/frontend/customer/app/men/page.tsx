@@ -1,7 +1,11 @@
+"use client"
+
 import { Header } from "@/components/header"
 import { CategoryHero } from "@/components/category-hero"
 import { ProductGrid } from "@/components/product-grid"
 import { FilterSidebar } from "@/components/filter-sidebar"
+import { useEffect, useState } from "react"
+
 
 const menProducts = [
   {
@@ -62,12 +66,29 @@ const menProducts = [
     image: "/placeholder.svg?height=400&width=400",
   },
 ]
-
 export default function MenPage() {
+  const [products, setProducts] = useState([]);
+  const [message, setMessage] = useState("");
+
+  const getProduct = async () => {
+    try {
+      const response = await fetch("http://127.0.0.1:8000/customer/product");
+      const data = await response.json();
+      console.log("Dữ liệu từ API:", data);
+      setProducts(data);
+    } catch (error) {
+      console.error("Lỗi gọi API:", error);
+      setMessage("Có lỗi xảy ra!");
+    }
+  };
+
+  useEffect(() => {
+    getProduct();
+  }, []);
+
   return (
     <div className="min-h-screen bg-white">
       <Header />
-
       <CategoryHero
         title="MEN"
         subtitle="Just Do It"
@@ -80,7 +101,9 @@ export default function MenPage() {
         <div className="flex-1">
           <div className="p-6 border-b">
             <div className="flex justify-between items-center">
-              <h2 className="text-xl font-bold">Men's Shoes & Clothing ({menProducts.length})</h2>
+              <h2 className="text-xl font-bold">
+                Men's Shoes & Clothing ({products.length})
+              </h2>
               <select className="border rounded px-3 py-2">
                 <option>Featured</option>
                 <option>Newest</option>
@@ -89,9 +112,43 @@ export default function MenPage() {
               </select>
             </div>
           </div>
-          <ProductGrid products={menProducts} />
+          <ProductGrid products={products} />
         </div>
       </div>
     </div>
-  )
+  );
 }
+
+
+// export default function MenPage() {
+//   return (
+//     <div className="min-h-screen bg-white">
+//       <Header />
+
+//       <CategoryHero
+//         title="MEN"
+//         subtitle="Just Do It"
+//         description="Gear up with the latest men's athletic wear, shoes, and accessories"
+//         image="/placeholder.svg?height=500&width=1200"
+//       />
+
+//       <div className="flex">
+//         <FilterSidebar />
+//         <div className="flex-1">
+//           <div className="p-6 border-b">
+//             <div className="flex justify-between items-center">
+//               <h2 className="text-xl font-bold">Men's Shoes & Clothing ({menProducts.length})</h2>
+//               <select className="border rounded px-3 py-2">
+//                 <option>Featured</option>
+//                 <option>Newest</option>
+//                 <option>Price: High-Low</option>
+//                 <option>Price: Low-High</option>
+//               </select>
+//             </div>
+//           </div>
+//           <ProductGrid products={menProducts} />
+//         </div>
+//       </div>
+//     </div>
+//   )
+// }

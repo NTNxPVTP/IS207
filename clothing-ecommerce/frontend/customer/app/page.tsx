@@ -11,7 +11,7 @@ export default function NikePage() {
 
       {/* Hero Section */}
       <section className="relative h-[600px] overflow-hidden">
-        <Image src="/placeholder.svg?height=600&width=1200" alt="Nike Hero" fill className="object-cover" priority />
+        <Image src="/main_image.png?height=700&width=1200" alt="Nike Hero" fill className="object-cover" priority />
         <div className="absolute inset-0 bg-black bg-opacity-20" />
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="text-center text-white">
