@@ -13,3 +13,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 
 Route::get('/users', [UserController::class, 'index']);
+
+Route::put('/users/{id}/toggle-status', [UserController::class, 'toggleStatus']);
+Route::get('/users/{id}/toggle-status', [UserController::class, 'toggleStatus']);
+

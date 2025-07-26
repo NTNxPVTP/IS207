@@ -64,20 +64,52 @@ export default function UsersPage() {
     return matchesSearch && matchesStatus
   })
 
-  const toggleUserStatus = (userId) => {
-    setUsers(
-      users.map((user) =>
-        user.id === userId ? { ...user, status: user.status === "active" ? "disabled" : "active" } : user,
-      ),
-    )
-  }
+  // const toggleUserStatus = (userId) => {
+  //   setUsers(
+  //     users.map((user) =>
+  //       user.id === userId ? { ...user, status: user.status === "active" ? "disabled" : "active" } : user,
+  //     ),
+  //   )
+  // }
+
+  const toggleUserStatus = async (userId) => {
+    try {
+      const response = await fetch(`http://127.0.0.1:8000/admin/users/${userId}/toggle-status`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error('Lỗi cập nhật trạng thái');
+      }
+
+      const data = await response.json();
+
+      // Cập nhật lại danh sách users sau khi đổi trạng thái
+      // setUsers((prevUsers) =>
+      //   prevUsers.map((user) =>
+      //     user.id === userId ? { ...user, status: data.user.status } : user
+      //   )
+      // );
+      console.log(data);
+      getCustomers();
+
+      setMessage('Cập nhật trạng thái thành công');
+    } catch (error) {
+      console.error('Lỗi:', error);
+      setMessage('Cập nhật trạng thái thất bại');
+    }
+  };
+
 
   const [message, setMessage] = useState('');
 
   const handleClick = async () => {
     try {
       const response = await fetch('http://127.0.0.1:8000/api/hello');
-   
+
 
       const data = await response.json();
 
@@ -88,8 +120,8 @@ export default function UsersPage() {
     }
   };
 
-  
- 
+
+
   const [customers, setCustomers] = useState([]);
 
   const getCustomers = async () => {

@@ -27,13 +27,13 @@ class UserController extends Controller
     {
         $users = User::all()->map(function ($user) {
             return [
-                'id' => $user->id,
+                'id' => $user->id_user,
                 'name' => $user->name, // hoặc $user->full_name nếu tên cột là vậy
                 'email' => $user->email,
                 'registrationDate' => optional($user->created_at)->toDateString(),
                 'status' => $user->is_active ? 'active' : 'disabled',
                 'totalOrders' => $user->total_order ?? 0,
-                'totalSpent' =>$user->total_spent ?? 0.00,
+                'totalSpent' => $user->total_spent ?? 0.00,
             ];
         });
 
@@ -50,5 +50,31 @@ class UserController extends Controller
         $user = User::create($validated);
 
         return response()->json($user, 201);
+    }
+
+    public function toggleStatus($id)
+    {
+        $user = User::where('id_user', $id)->first();
+
+
+        if (!$user) {
+            return response()->json(['message' => 'User not found'], 404);
+        }
+
+        $user->is_active = !$user->is_active;
+        $user->save();
+
+        return response()->json([
+            'message' => 'Status updated successfully',
+            'user' => [
+                'id' => $user->id_user,
+                'name' => $user->name, // hoặc $user->full_name nếu tên cột là vậy
+                'email' => $user->email,
+                'registrationDate' => optional($user->created_at)->toDateString(),
+                'status' => $user->is_active ? 'active' : 'disabled',
+                'totalOrders' => $user->total_order ?? 0,
+                'totalSpent' => $user->total_spent ?? 0.00,
+            ]
+        ]);
     }
 }
