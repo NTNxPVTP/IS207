@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
@@ -104,6 +104,25 @@ export default function ProductsPage() {
   const handleSoftDelete = (productId) => {
     setProducts(products.map((p) => (p.id === productId ? { ...p, status: "deleted" } : p)))
   }
+
+  const [message, setMessage] = useState('');
+
+  const getProducts = async () => {
+    try {
+      const response = await fetch('http://127.0.0.1:8000/admin/products');
+      const data = await response.json();
+      console.log('Dữ liệu từ API:', data);
+
+      setProducts(data);
+    } catch (error) {
+      console.error('Lỗi gọi API:', error);
+      setMessage('Có lỗi xảy ra!');
+    }
+  }
+
+  useEffect(() => {
+      getProducts();
+    }, []);
 
   return (
     <div className="flex-1 space-y-4 p-8 pt-6">
@@ -233,7 +252,8 @@ export default function ProductsPage() {
                 </TableCell>
                 <TableCell className="font-medium">{product.name}</TableCell>
                 <TableCell>{product.category}</TableCell>
-                <TableCell>${product.price.toFixed(2)}</TableCell>
+                {/* <TableCell>${product.price.toFixed(2)}</TableCell> */}
+                <TableCell>${product.price}</TableCell>
                 <TableCell>{product.stock}</TableCell>
                 <TableCell>
                   <Badge
