@@ -27,7 +27,7 @@ export default function RegisterPage() {
     // Gọi API đăng ký ở đây nếu có
     console.log({ name, email, password })
 
-    router.push("/sign") // chuyển hướng sau khi đăng ký
+    router.push("/login") // chuyển hướng sau khi đăng ký
   }
 
   return (
@@ -86,7 +86,7 @@ export default function RegisterPage() {
           <span>Đã có tài khoản? </span>
           <button
             className="text-black hover:underline font-medium"
-            onClick={() => router.push("/sign")}
+            onClick={() => router.push("/login")}
           >
             Đăng nhập
           </button>

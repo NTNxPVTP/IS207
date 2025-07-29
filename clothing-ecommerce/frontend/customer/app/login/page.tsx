@@ -13,14 +13,38 @@ export default function LoginPage() {
 
   const handleLogin = async () => {
     if (!email || !password) {
-      setError("Vui lòng nhập đầy đủ thông tin")
-      return
+    setError("Vui lòng nhập đầy đủ thông tin");
+    return;
+  }
+
+  try {
+    const response = await fetch("http://127.0.0.1:8000/customer/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email,
+        password,
+      }),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      setError(data.message || "Đăng nhập thất bại");
+      return;
     }
 
-    // Gọi API login ở đây nếu có
-    console.log({ email, password })
+    console.log("Đăng nhập thành công:");
 
-    router.push("/") // chuyển hướng sau đăng nhập
+
+    // Điều hướng
+    router.push("/");
+  } catch (error) {
+    console.error("Lỗi đăng nhập:", error);
+    setError("Đã xảy ra lỗi khi đăng nhập");
+  }
   }
 
   return (

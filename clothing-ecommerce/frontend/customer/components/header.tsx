@@ -27,7 +27,7 @@ export function Header() {
               Join Us
             </Link>
             <span>|</span>
-            <Link href="/sign" className="hover:text-black">
+            <Link href="/login" className="hover:text-black">
               Sign In
             </Link>
           </div>

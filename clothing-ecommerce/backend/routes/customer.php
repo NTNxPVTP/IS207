@@ -1,15 +1,15 @@
 <?php
 
-use App\Http\Controllers\Customer\ProductController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
-
-
+use App\Http\Controllers\customer\ProductController;
+use App\Http\Controllers\AuthController;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
 
-
 Route::get('/product', [ProductController::class, 'index']);
+
+Route::post('/login', [AuthController::class, 'login']);
