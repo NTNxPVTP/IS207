@@ -102,7 +102,7 @@ export default function ProductsPage() {
   }
 
   const handleSoftDelete = (productId) => {
-    setProducts(products.map((p) => (p.id === productId ? { ...p, status: "deleted" } : p)))
+    setProducts(products.map((p) => (p.id_product === productId ? { ...p, status: "deleted" } : p)))
   }
 
   const [message, setMessage] = useState('');
@@ -240,10 +240,10 @@ export default function ProductsPage() {
           </TableHeader>
           <TableBody>
             {filteredProducts.map((product) => (
-              <TableRow key={product.id}>
+              <TableRow key={product.id_product}>
                 <TableCell>
                   <Image
-                    src={product.image || "/placeholder.svg"}
+                    src={product.image_url || "/placeholder.svg"}
                     alt={product.name}
                     width={50}
                     height={50}
@@ -254,7 +254,7 @@ export default function ProductsPage() {
                 <TableCell>{product.category}</TableCell>
                 {/* <TableCell>${product.price.toFixed(2)}</TableCell> */}
                 <TableCell>${product.price}</TableCell>
-                <TableCell>{product.stock}</TableCell>
+                <TableCell>{product.stock_quantity}</TableCell>
                 <TableCell>
                   <Badge
                     variant={
