@@ -16,6 +16,7 @@ class User extends Model
         'email',
         'role',
         'is_active',
+        'password_hash',
         // thêm các cột khác nếu cần
     ];
 }
