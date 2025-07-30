@@ -1,6 +1,6 @@
 <?php
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use App\Models\admin\User;
 
@@ -20,7 +20,7 @@ class AuthController extends Controller
         }
 
         // Kiểm tra mật khẩu (không mã hóa)
-        if ($user->password_hash !== $password) {
+        if (!Hash::check($password,$user->password_hash)) {
             return response()->json(['message' => 'Sai mật khẩu'], 401);
         }
 

@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useRef, useState } from "react"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import Image from "next/image"
@@ -10,46 +10,54 @@ export default function LoginPage() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [error, setError] = useState("")
+  const passwordRef = useRef<HTMLInputElement>(null)
 
   const handleLogin = async () => {
     if (!email || !password) {
-    setError("Vui lòng nhập đầy đủ thông tin");
-    return;
-  }
-
-  try {
-    const response = await fetch("http://127.0.0.1:8000/customer/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email,
-        password,
-      }),
-    });
-
-    const data = await response.json();
-
-    if (!response.ok) {
-      setError(data.message || "Đăng nhập thất bại");
-      return;
+      setError("Vui lòng nhập đầy đủ thông tin")
+      return
     }
 
-    console.log("Đăng nhập thành công:");
+    try {
+      const response = await fetch("http://127.0.0.1:8000/customer/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      })
 
+      const data = await response.json()
 
-    // Điều hướng
-    router.push("/");
-  } catch (error) {
-    console.error("Lỗi đăng nhập:", error);
-    setError("Đã xảy ra lỗi khi đăng nhập");
+      if (!response.ok) {
+        setError(data.message || "Đăng nhập thất bại")
+        return
+      }
+
+      console.log("Đăng nhập thành công")
+      router.push("/")
+    } catch (error) {
+      console.error("Lỗi đăng nhập:", error)
+      setError("Đã xảy ra lỗi khi đăng nhập")
+    }
   }
+
+  const handleEmailKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      e.preventDefault()
+      passwordRef.current?.focus()
+    }
+  }
+
+  const handlePasswordKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      e.preventDefault()
+      handleLogin()
+    }
   }
 
   return (
     <div className="min-h-screen bg-white flex flex-col items-center justify-center px-4">
-      {/* Logo */}
       <div className="mb-6">
         <Image src="/3P1N_logo.png" alt="Nike Logo" width={60} height={60} />
       </div>
@@ -70,13 +78,16 @@ export default function LoginPage() {
             placeholder="Email"
             value={email}
             onChange={e => setEmail(e.target.value)}
+            onKeyDown={handleEmailKeyDown}
             className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black"
           />
           <input
             type="password"
             placeholder="Mật khẩu"
             value={password}
+            ref={passwordRef}
             onChange={e => setPassword(e.target.value)}
+            onKeyDown={handlePasswordKeyDown}
             className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black"
           />
         </div>
