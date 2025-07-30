@@ -20,3 +20,4 @@ Route::put('/users/{id}/toggle-status', [UserController::class, 'toggleStatus'])
 Route::get('/users/{id}/toggle-status', [UserController::class, 'toggleStatus']);
 
 Route::get('/products', [ProductController::class, 'index']);
+Route::post('/products', [ProductController::class, 'store']);
