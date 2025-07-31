@@ -13,11 +13,13 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 
-
+//user
 Route::get('/users', [UserController::class, 'index']);
-
 Route::put('/users/{id}/toggle-status', [UserController::class, 'toggleStatus']);
 Route::get('/users/{id}/toggle-status', [UserController::class, 'toggleStatus']);
 
+//product
 Route::get('/products', [ProductController::class, 'index']);
 Route::post('/products', [ProductController::class, 'store']);
+Route::put('/products/{id_product}', [ProductController::class, 'update']);
+

@@ -34,4 +34,20 @@ class ProductController extends Controller
 
         return response()->json($product);
     }
+
+    public function update(Request $request, $id_product)
+    {
+        $product = Product::where('id_product', $id_product)->firstOrFail();
+
+        $product->name = $request->name;
+        $product->description = $request->description;
+        $product->price = $request->price;
+        // $product->category = $request->category;
+        $product->stock_quantity = $request->stock_quantity;
+        // Thêm các trường khác nếu có
+
+        $product->save();
+
+        return response()->json($product);
+    }
 }

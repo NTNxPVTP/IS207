@@ -109,20 +109,43 @@ export default function ProductsPage() {
 
 
 
-  const handleEditProduct = () => {
-    setProducts(
-      products.map((p) =>
-        p.id_product === editingProduct.id_product
-          ? {
-            ...editingProduct,
-            price: Number.parseFloat(editingProduct.price),
-            stock: Number.parseInt(editingProduct.stock_quantity),
-          }
-          : p,
-      ),
-    )
-    setEditingProduct(null)
-  }
+  const handleEditProduct = async () => {
+    try {
+      const productToUpdate = {
+        ...editingProduct,
+        price: parseFloat(editingProduct.price),
+        stock_quantity: parseInt(editingProduct.stock_quantity),
+      };
+
+      console.log(editingProduct.id_product);
+
+      const response = await fetch(`http://127.0.0.1:8000/admin/products/${editingProduct.id_product}`, {
+        method: "PUT", // hoặc "PATCH" tùy backend
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(productToUpdate),
+      });
+
+      if (!response.ok) {
+        throw new Error("Lỗi khi cập nhật sản phẩm");
+      }
+
+      const updatedProduct = await response.json();
+      console.log("Đã cập nhật:", updatedProduct);
+
+      setMessage("Cập nhật sản phẩm thành công!");
+
+      // Làm mới danh sách
+      await getProducts();
+
+      // setEditingProduct(null);
+    } catch (error) {
+      console.error("Lỗi khi cập nhật:", error);
+      setMessage("Không thể cập nhật sản phẩm.");
+    }
+  };
+
 
   const handleSoftDelete = (productId) => {
     setProducts(products.map((p) => (p.id_product === productId ? { ...p, status: "deleted" } : p)))
@@ -348,7 +371,7 @@ export default function ProductsPage() {
                                 id="edit-stock"
                                 type="number"
                                 value={editingProduct.stock_quantity}
-                                onChange={(e) => setEditingProduct({ ...editingProduct, stock: e.target.value })}
+                                onChange={(e) => setEditingProduct({ ...editingProduct, stock_quantity: e.target.value })}
                               />
                             </div>
                             <Button onClick={handleEditProduct} className="w-full">
