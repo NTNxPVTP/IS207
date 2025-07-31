@@ -121,9 +121,11 @@ export default function NikePage() {
               />
               <div className="absolute bottom-8 left-8">
                 <h3 className="text-white text-3xl font-bold mb-2">Women's</h3>
+                <Link href="/women">
                 <Button className="bg-white text-black hover:bg-black hover:text-white rounded-full px-6 py-2 transition-colors duration-300">
                     Shop Now
                   </Button>
+                  </Link>
               </div>
             </div>
           </div>
@@ -137,14 +139,14 @@ export default function NikePage() {
                 height={400}
                 className="w-full h-auto group-hover:scale-105 transition-transform duration-300"
               />
+              <Link href="/men">
               <div className="absolute bottom-8 left-8">
                 <h3 className="text-white text-3xl font-bold mb-2">Men's</h3>
-                <Link href="/men">
                   <Button className="bg-white text-black hover:bg-black hover:text-white rounded-full px-6 py-2 transition-colors duration-300">
                     Shop Now
                   </Button>
-                </Link>
               </div>
+              </Link>
             </div>
           </div>
           {/* kids feature  */}
@@ -159,9 +161,11 @@ export default function NikePage() {
               />
               <div className="absolute bottom-8 left-8">
                 <h3 className="text-white text-3xl font-bold mb-2">Kids</h3>
+                <Link href="/kids">
                 <Button className="bg-white text-black hover:bg-black hover:text-white rounded-full px-6 py-2 transition-colors duration-300">
                     Shop Now
                   </Button>
+                </Link>
               </div>
             </div>
           </div>
@@ -177,9 +181,11 @@ export default function NikePage() {
               />
               <div className="absolute bottom-8 left-8">
                 <h3 className="text-white text-3xl font-bold mb-2">Sales</h3>
+                <Link href="/sale">
                 <Button className="bg-white text-black hover:bg-black hover:text-white rounded-full px-6 py-2 transition-colors duration-300">
                     Shop Now
                   </Button>
+                </Link>
               </div>
             </div>
           </div>
