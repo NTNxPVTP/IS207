@@ -4,6 +4,7 @@ import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
+import { Eye, EyeOff } from "lucide-react"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import {
@@ -117,7 +118,7 @@ export default function ProductsPage() {
         stock_quantity: parseInt(editingProduct.stock_quantity),
       };
 
-      console.log(editingProduct.id_product);
+
 
       const response = await fetch(`http://127.0.0.1:8000/admin/products/${editingProduct.id_product}`, {
         method: "PUT", // hoặc "PATCH" tùy backend
@@ -147,9 +148,35 @@ export default function ProductsPage() {
   };
 
 
-  const handleSoftDelete = (productId) => {
-    setProducts(products.map((p) => (p.id_product === productId ? { ...p, status: "deleted" } : p)))
-  }
+
+  const handleToggleVisibility = async (productId, currentVisibility) => {
+    console.log(productId);
+    try {
+      const response = await fetch(`http://127.0.0.1:8000/admin/products/${productId}/toggle-visibility`, {
+        method: "PATCH", // PATCH vì bạn chỉ thay đổi 1 trường
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          is_visible: currentVisibility === 1 ? 0 : 1,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Lỗi khi thay đổi trạng thái hiển thị");
+      }
+
+      const updated = await response.json();
+      console.log("Đã cập nhật is_visible:", updated);
+
+      // Cập nhật lại danh sách
+      await getProducts();
+    } catch (error) {
+      console.error("Lỗi khi cập nhật trạng thái hiển thị:", error);
+      setMessage("Không thể thay đổi trạng thái sản phẩm.");
+    }
+  };
+
 
   const [message, setMessage] = useState('');
 
@@ -381,9 +408,18 @@ export default function ProductsPage() {
                         )}
                       </DialogContent>
                     </Dialog>
-                    <Button variant="destructive" size="sm" onClick={() => handleSoftDelete(product.id_product)}>
-                      <Trash2 className="h-4 w-4" />
+                    <Button
+                      variant={product.is_visible === 1 ? "default" : "destructive"}
+                      size="sm"
+                      onClick={() => handleToggleVisibility(product.id_product, product.is_visible)}
+                    >
+                      {product.is_visible === 1 ? (
+                        <Eye className="h-4 w-4" />
+                      ) : (
+                        <EyeOff className="h-4 w-4" />
+                      )}
                     </Button>
+
                   </div>
                 </TableCell>
               </TableRow>

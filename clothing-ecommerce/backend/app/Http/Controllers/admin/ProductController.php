@@ -50,4 +50,13 @@ class ProductController extends Controller
 
         return response()->json($product);
     }
+
+    public function toggleVisibility($id, Request $request)
+    {
+        $product = Product::findOrFail($id);
+        $product->is_visible = $request->input('is_visible');
+        $product->save();
+
+        return response()->json($product);
+    }
 }
