@@ -53,7 +53,7 @@ const mockProducts = [
 ]
 
 export default function ProductsPage() {
-  const [products, setProducts] = useState(mockProducts)
+  const [products, setProducts] = useState([])
   const [searchTerm, setSearchTerm] = useState("")
   const [categoryFilter, setCategoryFilter] = useState("all")
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false)
@@ -63,7 +63,7 @@ export default function ProductsPage() {
     description: "",
     price: "",
     category: "",
-    stock: "",
+    stock_quantity: "",
   })
 
   const filteredProducts = products.filter((product) => {
@@ -72,29 +72,54 @@ export default function ProductsPage() {
     return matchesSearch && matchesCategory && product.status !== "deleted"
   })
 
-  const handleAddProduct = () => {
-    const product = {
-      id: Date.now(),
-      ...newProduct,
-      price: Number.parseFloat(newProduct.price),
-      stock: Number.parseInt(newProduct.stock),
-      status: "active",
-      image: "/placeholder.svg?height=50&width=50",
+  const handleAddProduct = async () => {
+
+    try {
+      const newProduct = {
+        name: "Áo sơ mi",
+        description: "Áo sơ mi nam tay dài",
+        price: 199000,
+        category: "Áo nam",
+        stock_quantity: 100,
+      }
+      const response = await fetch("http://127.0.0.1:8000/admin/products", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newProduct),
+      });
+
+      if (!response.ok) {
+        throw new Error("Lỗi khi thêm sản phẩm");
+      }
+
+      const savedProduct = await response.json();
+      console.log("Đã thêm sản phẩm:", savedProduct);
+
+      // Sau khi thêm thành công, load lại danh sách
+      await getProducts();
+
+
+      setMessage("Thêm sản phẩm thành công!");
+
+    } catch (error) {
+      console.error("Lỗi thêm sản phẩm:", error);
+      setMessage("Không thể thêm sản phẩm.");
     }
-    setProducts([...products, product])
-    setNewProduct({ name: "", description: "", price: "", category: "", stock: "" })
-    setIsAddDialogOpen(false)
-  }
+  };
+
+
 
   const handleEditProduct = () => {
     setProducts(
       products.map((p) =>
-        p.id === editingProduct.id
+        p.id_product === editingProduct.id_product
           ? {
-              ...editingProduct,
-              price: Number.parseFloat(editingProduct.price),
-              stock: Number.parseInt(editingProduct.stock),
-            }
+            ...editingProduct,
+            price: Number.parseFloat(editingProduct.price),
+            stock: Number.parseInt(editingProduct.stock_quantity),
+          }
           : p,
       ),
     )
@@ -102,7 +127,7 @@ export default function ProductsPage() {
   }
 
   const handleSoftDelete = (productId) => {
-    setProducts(products.map((p) => (p.id === productId ? { ...p, status: "deleted" } : p)))
+    setProducts(products.map((p) => (p.id_product === productId ? { ...p, status: "deleted" } : p)))
   }
 
   const [message, setMessage] = useState('');
@@ -121,8 +146,8 @@ export default function ProductsPage() {
   }
 
   useEffect(() => {
-      getProducts();
-    }, []);
+    getProducts();
+  }, []);
 
   return (
     <div className="flex-1 space-y-4 p-8 pt-6">
@@ -189,7 +214,7 @@ export default function ProductsPage() {
                 <Input
                   id="stock"
                   type="number"
-                  value={newProduct.stock}
+                  value={newProduct.stock_quantity}
                   onChange={(e) => setNewProduct({ ...newProduct, stock: e.target.value })}
                 />
               </div>
@@ -240,10 +265,10 @@ export default function ProductsPage() {
           </TableHeader>
           <TableBody>
             {filteredProducts.map((product) => (
-              <TableRow key={product.id}>
+              <TableRow key={product.id_product}>
                 <TableCell>
                   <Image
-                    src={product.image || "/placeholder.svg"}
+                    src={product.image_url || "/placeholder.svg"}
                     alt={product.name}
                     width={50}
                     height={50}
@@ -254,18 +279,18 @@ export default function ProductsPage() {
                 <TableCell>{product.category}</TableCell>
                 {/* <TableCell>${product.price.toFixed(2)}</TableCell> */}
                 <TableCell>${product.price}</TableCell>
-                <TableCell>{product.stock}</TableCell>
+                <TableCell>{product.stock_quantity}</TableCell>
                 <TableCell>
                   <Badge
                     variant={
-                      product.status === "active"
+                      product.is_visible === 1
                         ? "default"
-                        : product.status === "out_of_stock"
+                        : product.is_visible === 0
                           ? "destructive"
                           : "secondary"
                     }
                   >
-                    {product.status === "out_of_stock" ? "Out of Stock" : product.status}
+                    {product.is_visible === 1 ? "Active" : "Disable"}
                   </Badge>
                 </TableCell>
                 <TableCell>
@@ -279,7 +304,7 @@ export default function ProductsPage() {
                             setEditingProduct({
                               ...product,
                               price: product.price.toString(),
-                              stock: product.stock.toString(),
+                              stock: product.stock_quantity.toString(),
                             })
                           }
                         >
@@ -324,7 +349,7 @@ export default function ProductsPage() {
                               <Input
                                 id="edit-stock"
                                 type="number"
-                                value={editingProduct.stock}
+                                value={editingProduct.stock_quantity}
                                 onChange={(e) => setEditingProduct({ ...editingProduct, stock: e.target.value })}
                               />
                             </div>
@@ -335,7 +360,7 @@ export default function ProductsPage() {
                         )}
                       </DialogContent>
                     </Dialog>
-                    <Button variant="destructive" size="sm" onClick={() => handleSoftDelete(product.id)}>
+                    <Button variant="destructive" size="sm" onClick={() => handleSoftDelete(product.id_product)}>
                       <Trash2 className="h-4 w-4" />
                     </Button>
                   </div>

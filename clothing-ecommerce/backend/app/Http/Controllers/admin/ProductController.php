@@ -13,25 +13,25 @@ use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
-    
+
     public function index()
     {
-        $products = Product::all()->map(function ($product) {
-            return [
-                'id' => $product->id_product,
-                'name' => $product->name, // hoặc $user->full_name nếu tên cột là vậy
-                'description' => $product->description,
-                'price' => $product->price,
-                'status' => $product->is_visible ? 'active' : 'disabled',
-                'price' => $product->price ?? 0.00,
-                'image' => $product->image_url
-            ];
-        });
 
-        return response()->json($products, 200);
+        return response()->json(Product::all(), 200);
     }
 
-    
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'name' => 'required|string',
+            'description' => 'nullable|string',
+            'price' => 'required|numeric',
+            'category' => 'required|string',
+            'stock_quantity' => 'required|integer',
+        ]);
 
-    
+        $product = Product::create($validated);
+
+        return response()->json($product);
+    }
 }
