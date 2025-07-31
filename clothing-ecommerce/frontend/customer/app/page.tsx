@@ -50,20 +50,6 @@ export default function NikePage() {
           <div className="group cursor-pointer">
             <div className="relative overflow-hidden rounded-lg mb-4 w-[300px] h-[300px]">
               <Image
-                src="/jordan.avif"
-                alt="Jordan Basketball"
-                width={300}
-                height={300}
-                className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-              />
-            </div>
-            <h3 className="font-medium text-lg mb-1">Jordan</h3>
-            <p className="text-gray-600 text-sm">Basketball Shoes</p>
-          </div>
-
-          <div className="group cursor-pointer">
-            <div className="relative overflow-hidden rounded-lg mb-4 w-[300px] h-[300px]">
-              <Image
                 src="/running.png"
                 alt="Nike Running"
                 width={300}
@@ -71,36 +57,50 @@ export default function NikePage() {
                 className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
               />
             </div>
-            <h3 className="font-medium text-lg mb-1">Nike Running</h3>
+            <h3 className="font-medium text-lg mb-1">3P1N Running</h3>
             <p className="text-gray-600 text-sm">Performance Footwear</p>
           </div>
 
           <div className="group cursor-pointer">
             <div className="relative overflow-hidden rounded-lg mb-4">
               <Image
-                src="/sale.png"
+                src="/lifestyle.png"
                 alt="Nike Lifestyle"
                 width={300}
                 height={300}
                 className="w-full h-auto group-hover:scale-105 transition-transform duration-300"
               />
             </div>
-            <h3 className="font-medium text-lg mb-1">Nike Lifestyle</h3>
+            <h3 className="font-medium text-lg mb-1">3P1N Lifestyle</h3>
             <p className="text-gray-600 text-sm">Everyday Comfort</p>
           </div>
 
           <div className="group cursor-pointer">
             <div className="relative overflow-hidden rounded-lg mb-4">
               <Image
-                src="/placeholder.svg?height=300&width=300"
+                src="/training.png?height=300&width=300"
                 alt="Nike Training"
                 width={300}
                 height={300}
                 className="w-full h-auto group-hover:scale-105 transition-transform duration-300"
               />
             </div>
-            <h3 className="font-medium text-lg mb-1">Nike Training</h3>
+            <h3 className="font-medium text-lg mb-1">3P1N Training</h3>
             <p className="text-gray-600 text-sm">Workout Essentials</p>
+          </div>
+
+          <div className="group cursor-pointer">
+            <div className="relative overflow-hidden rounded-lg mb-4 w-[300px] h-[300px]">
+              <Image
+                src="/recovery.png"
+                alt="Jordan Basketball"
+                width={300}
+                height={300}
+                className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+              />
+            </div>
+            <h3 className="font-medium text-lg mb-1">Recovery</h3>
+            <p className="text-gray-600 text-sm"> Wellness and Self-care.</p>
           </div>
         </div>
       </section>
@@ -113,7 +113,7 @@ export default function NikePage() {
           <div className="relative group cursor-pointer">
             <div className="relative overflow-hidden rounded-lg">
               <Image
-                src="/women.avif"
+                src="/women.png"
                 alt="Women's Collection"
                 width={600}
                 height={400}
@@ -131,7 +131,7 @@ export default function NikePage() {
           <div className="relative group cursor-pointer">
             <div className="relative overflow-hidden rounded-lg">
               <Image
-                src="/menmainpage.png"
+                src="/mengray.png"
                 alt="Men's Collection"
                 width={600}
                 height={400}
@@ -151,7 +151,7 @@ export default function NikePage() {
           <div className="relative group cursor-pointer">
             <div className="relative overflow-hidden rounded-lg">
               <Image
-                src="/kidmainpage.jpg?height=400&width=600"
+                src="/kids.png?height=400&width=600"
                 alt="!!!"
                 width={600}
                 height={400}
