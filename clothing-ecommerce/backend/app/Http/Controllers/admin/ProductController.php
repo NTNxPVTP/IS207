@@ -25,9 +25,9 @@ class ProductController extends Controller
         $validated = $request->validate([
             'name' => 'required|string',
             'description' => 'nullable|string',
-            'price' => 'required|numeric',
-            'category' => 'required|string',
-            'stock_quantity' => 'required|integer',
+            'price' => 'nullable|numeric',
+            'category' => 'nullable|string',
+            'stock_quantity' => 'nullable|integer',
         ]);
 
         $product = Product::create($validated);

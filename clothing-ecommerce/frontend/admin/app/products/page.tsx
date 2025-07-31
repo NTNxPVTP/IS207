@@ -75,12 +75,10 @@ export default function ProductsPage() {
   const handleAddProduct = async () => {
 
     try {
-      const newProduct = {
-        name: "Áo sơ mi",
-        description: "Áo sơ mi nam tay dài",
-        price: 199000,
-        category: "Áo nam",
-        stock_quantity: 100,
+      const productToAdd = {
+        ...newProduct,
+        price: parseFloat(newProduct.price),
+        stock_quantity: parseInt(newProduct.stock_quantity),
       }
       const response = await fetch("http://127.0.0.1:8000/admin/products", {
         method: "POST",
@@ -215,7 +213,7 @@ export default function ProductsPage() {
                   id="stock"
                   type="number"
                   value={newProduct.stock_quantity}
-                  onChange={(e) => setNewProduct({ ...newProduct, stock: e.target.value })}
+                  onChange={(e) => setNewProduct({ ...newProduct, stock_quantity: e.target.value })}
                 />
               </div>
               <Button onClick={handleAddProduct} className="w-full">
