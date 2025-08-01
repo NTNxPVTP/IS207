@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
@@ -70,7 +70,7 @@ const statusOptions = [
 ]
 
 export default function OrdersPage() {
-  const [orders, setOrders] = useState(mockOrders)
+  const [orders, setOrders] = useState([])
   const [searchTerm, setSearchTerm] = useState("")
   const [statusFilter, setStatusFilter] = useState("all")
   const [selectedOrder, setSelectedOrder] = useState(null)
@@ -91,6 +91,25 @@ export default function OrdersPage() {
     const statusOption = statusOptions.find((option) => option.value === status)
     return statusOption?.variant || "default"
   }
+
+  const [message, setMessage] = useState('');
+
+  const getOrders = async () => {
+    try {
+      const response = await fetch('http://127.0.0.1:8000/admin/orders');
+      const data = await response.json();
+      console.log('Dữ liệu từ API:', data);
+      setOrders(data);
+    } catch (error) {
+      console.error('Lỗi gọi API:', error);
+      setMessage('Có lỗi xảy ra!');
+    }
+  }
+
+   useEffect(() => {
+      getOrders();
+    }, []);
+
 
   return (
     <div className="flex-1 space-y-4 p-8 pt-6">
@@ -137,10 +156,10 @@ export default function OrdersPage() {
           </TableHeader>
           <TableBody>
             {filteredOrders.map((order) => (
-              <TableRow key={order.id}>
-                <TableCell className="font-medium">{order.id}</TableCell>
-                <TableCell>{order.customer}</TableCell>
-                <TableCell>{order.date}</TableCell>
+              <TableRow key={order.id_order}>
+                <TableCell className="font-medium">{order.id_order}</TableCell>
+                <TableCell>{order.user?.name}</TableCell>
+                <TableCell>{order.order_date}</TableCell>
                 <TableCell>
                   <Select value={order.status} onValueChange={(value) => updateOrderStatus(order.id, value)}>
                     <SelectTrigger className="w-[130px]">
@@ -157,7 +176,7 @@ export default function OrdersPage() {
                     </SelectContent>
                   </Select>
                 </TableCell>
-                <TableCell>${order.total.toFixed(2)}</TableCell>
+                <TableCell>${order.total_cost}</TableCell>
                 <TableCell>
                   <Dialog>
                     <DialogTrigger asChild>
@@ -167,18 +186,18 @@ export default function OrdersPage() {
                     </DialogTrigger>
                     <DialogContent>
                       <DialogHeader>
-                        <DialogTitle>Order Details - {order.id}</DialogTitle>
+                        <DialogTitle>Order Details - {order.id_order}</DialogTitle>
                         <DialogDescription>Complete order information</DialogDescription>
                       </DialogHeader>
                       <div className="space-y-4">
                         <div>
-                          <strong>Customer:</strong> {order.customer}
+                          <strong>Customer:</strong> {order.user?.name}
                         </div>
                         <div>
-                          <strong>Email:</strong> {order.email}
+                          <strong>Email:</strong> {order.user?.email}
                         </div>
                         <div>
-                          <strong>Date:</strong> {order.date}
+                          <strong>Date:</strong> {order.order_date}
                         </div>
                         <div>
                           <strong>Status:</strong>
@@ -200,7 +219,7 @@ export default function OrdersPage() {
                           </div>
                         </div>
                         <div className="border-t pt-2">
-                          <strong>Total: ${order.total.toFixed(2)}</strong>
+                          <strong>Total: ${order.total_cost}</strong>
                         </div>
                       </div>
                     </DialogContent>

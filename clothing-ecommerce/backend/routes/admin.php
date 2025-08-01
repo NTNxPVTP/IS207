@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\OrderController;
+
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -24,3 +26,5 @@ Route::post('/products', [ProductController::class, 'store']);
 Route::put('/products/{id_product}', [ProductController::class, 'update']);
 Route::patch('/products/{id}/toggle-visibility', [ProductController::class, 'toggleVisibility']);
 
+//orders
+Route::get('/orders', [OrderController::class, 'index']);
