@@ -207,16 +207,16 @@ export default function OrdersPage() {
                         </div>
                         <div>
                           <strong>Items:</strong>
-                          {/* <div className="mt-2 space-y-2">
+                          <div className="mt-2 space-y-2">
                             {order.items.map((item, index) => (
                               <div key={index} className="flex justify-between p-2 bg-muted rounded">
                                 <span>
-                                  {item.name} x{item.quantity}
+                                  {item.product.name} x{item.quantity}
                                 </span>
-                                <span>${(item.price * item.quantity)}</span>
+                                <span>${(item.price_at_order_time * item.quantity)}</span>
                               </div>
                             ))}
-                          </div> */}
+                          </div>
                         </div>
                         <div className="border-t pt-2">
                           <strong>Total: ${order.total_cost}</strong>

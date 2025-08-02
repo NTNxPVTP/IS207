@@ -11,10 +11,19 @@ class OrderController extends Controller
 {
     public function index()
     {
-        $orders = Order::with(['user', 'orderItems'])->get(); // Nếu có quan hệ user
+        $orders = Order::all();
+
         foreach ($orders as $order) {
-            $order->items = OrderItem::where('id_order', $order->id_order)->get();
+            $items = OrderItem::where('id_order', $order->id_order)->get();
+
+            // Gọi luôn quan hệ product
+            foreach ($items as $item) {
+                $item->product = $item->product; // Trả về thông tin product
+            }
+
+            $order->items = $items;
         }
+
         return response()->json($orders);
     }
 }
