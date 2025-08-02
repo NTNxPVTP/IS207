@@ -63,10 +63,10 @@ const mockOrders = [
 
 const statusOptions = [
   { value: "pending", label: "Pending", variant: "secondary" },
-  { value: "processing", label: "Processing", variant: "default" },
+  { value: "confirmed", label: "Confirmed", variant: "default" },
   { value: "shipped", label: "Shipped", variant: "outline" },
   { value: "delivered", label: "Delivered", variant: "default" },
-  { value: "canceled", label: "Canceled", variant: "destructive" },
+  { value: "cancelled", label: "Cancelled", variant: "destructive" },
 ]
 
 export default function OrdersPage() {
@@ -77,14 +77,14 @@ export default function OrdersPage() {
 
   const filteredOrders = orders.filter((order) => {
     const matchesSearch =
-      order.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      order.customer.toLowerCase().includes(searchTerm.toLowerCase())
+      order.id_order.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      order.user?.name.toLowerCase().includes(searchTerm.toLowerCase())
     const matchesStatus = statusFilter === "all" || order.status === statusFilter
     return matchesSearch && matchesStatus
   })
 
   const updateOrderStatus = (orderId, newStatus) => {
-    setOrders(orders.map((order) => (order.id === orderId ? { ...order, status: newStatus } : order)))
+    setOrders(orders.map((order) => (order.id_order === orderId ? { ...order, status: newStatus } : order)))
   }
 
   const getStatusBadgeVariant = (status) => {
@@ -207,16 +207,16 @@ export default function OrdersPage() {
                         </div>
                         <div>
                           <strong>Items:</strong>
-                          <div className="mt-2 space-y-2">
+                          {/* <div className="mt-2 space-y-2">
                             {order.items.map((item, index) => (
                               <div key={index} className="flex justify-between p-2 bg-muted rounded">
                                 <span>
                                   {item.name} x{item.quantity}
                                 </span>
-                                <span>${(item.price * item.quantity).toFixed(2)}</span>
+                                <span>${(item.price * item.quantity)}</span>
                               </div>
                             ))}
-                          </div>
+                          </div> */}
                         </div>
                         <div className="border-t pt-2">
                           <strong>Total: ${order.total_cost}</strong>

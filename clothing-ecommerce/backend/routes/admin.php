@@ -3,6 +3,8 @@
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\OrderController;
+use App\Http\Controllers\Admin\OrderItemController;
+
 
 
 use Illuminate\Http\Request;
@@ -28,3 +30,7 @@ Route::patch('/products/{id}/toggle-visibility', [ProductController::class, 'tog
 
 //orders
 Route::get('/orders', [OrderController::class, 'index']);
+
+//Order_Item
+Route::get('/order_item', [OrderItemController::class, 'index']);
+
