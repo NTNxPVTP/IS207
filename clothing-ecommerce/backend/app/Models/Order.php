@@ -29,6 +29,8 @@ class Order extends Model
         'order_date' => 'datetime',
         'created_at' => 'datetime',
     ];
+    public $timestamps = false; // vì không có created_at, updated_at
+
 
     public function user()
     {
@@ -37,5 +39,7 @@ class Order extends Model
     public function orderItems()
     {
         return $this->hasMany(OrderItem::class, 'id_order', 'id_order');
+        return OrderItem::where('id_order', $order->id_order)->get();
+        
     }
 }

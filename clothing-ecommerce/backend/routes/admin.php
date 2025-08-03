@@ -30,6 +30,7 @@ Route::patch('/products/{id}/toggle-visibility', [ProductController::class, 'tog
 
 //orders
 Route::get('/orders', [OrderController::class, 'index']);
+Route::patch('/orders/{id}', [OrderController::class, 'updateStatus']);
 
 //Order_Item
 Route::get('/order_item', [OrderItemController::class, 'index']);

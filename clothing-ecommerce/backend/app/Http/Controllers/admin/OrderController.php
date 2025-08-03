@@ -11,8 +11,7 @@ class OrderController extends Controller
 {
     public function index()
     {
-        $orders = Order::all();
-
+        $orders = Order::with('user')->get();
         foreach ($orders as $order) {
             $items = OrderItem::where('id_order', $order->id_order)->get();
 
@@ -25,5 +24,14 @@ class OrderController extends Controller
         }
 
         return response()->json($orders);
+    }
+    
+    public function updateStatus(Request $request, $id)
+    {
+        $order = Order::findOrFail($id);
+        $order->status = $request->input('status');
+        $order->save();
+
+        return response()->json(['message' => 'Status updated successfully']);
     }
 }

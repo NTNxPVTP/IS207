@@ -83,9 +83,30 @@ export default function OrdersPage() {
     return matchesSearch && matchesStatus
   })
 
-  const updateOrderStatus = (orderId, newStatus) => {
-    setOrders(orders.map((order) => (order.id_order === orderId ? { ...order, status: newStatus } : order)))
-  }
+  const updateOrderStatus = async (orderId, newStatus) => {
+    try {
+      const response = await fetch(`http://127.0.0.1:8000/admin/orders/${orderId}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          // Nếu có cần auth token:
+          // 'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ status: newStatus }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to update status');
+      }
+
+      const updatedOrder = await response.json();
+
+      getOrders();
+    } catch (error) {
+      console.error('Error updating status:', error);
+      alert('Cập nhật trạng thái thất bại!');
+    }
+  };
 
   const getStatusBadgeVariant = (status) => {
     const statusOption = statusOptions.find((option) => option.value === status)
@@ -106,9 +127,9 @@ export default function OrdersPage() {
     }
   }
 
-   useEffect(() => {
-      getOrders();
-    }, []);
+  useEffect(() => {
+    getOrders();
+  }, []);
 
 
   return (
@@ -161,7 +182,7 @@ export default function OrdersPage() {
                 <TableCell>{order.user?.name}</TableCell>
                 <TableCell>{order.order_date}</TableCell>
                 <TableCell>
-                  <Select value={order.status} onValueChange={(value) => updateOrderStatus(order.id, value)}>
+                  <Select value={order.status} onValueChange={(value) => updateOrderStatus(order.id_order, value)}>
                     <SelectTrigger className="w-[130px]">
                       <Badge variant={getStatusBadgeVariant(order.status)}>
                         {statusOptions.find((opt) => opt.value === order.status)?.label}
