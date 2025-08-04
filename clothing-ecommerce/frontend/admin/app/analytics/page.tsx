@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
@@ -11,6 +11,18 @@ import { DollarSign, Package, TrendingUp, Users } from "lucide-react"
 export default function AnalyticsPage() {
   const [revenueFilter, setRevenueFilter] = useState("month")
   const [inventoryFilter, setInventoryFilter] = useState("all")
+  const [revenueData, setRevenueData] = useState({
+    by_day: [],
+    by_month: [],
+    by_category: []
+  });
+  const [selectedFilter, setSelectedFilter] = useState<'by_day' | 'by_month' | 'by_category'>('by_month');
+
+  useEffect(() => {
+    fetch('http://127.0.0.1:8000/admin/analytics/revenue')
+      .then(res => res.json())
+      .then(data => setRevenueData(data));
+  }, []);
 
   return (
     <div className="flex-1 space-y-4 p-8 pt-6">
@@ -88,7 +100,17 @@ export default function AnalyticsPage() {
               </div>
             </CardHeader>
             <CardContent>
-              <RevenueChart filter={revenueFilter} />
+              <RevenueChart
+                filter={revenueFilter}
+                data={
+                  revenueFilter === "day"
+                    ? revenueData.by_day
+                    : revenueFilter === "month"
+                      ? revenueData.by_month
+                      : revenueData.by_category
+                }
+              />
+
             </CardContent>
           </Card>
         </TabsContent>
