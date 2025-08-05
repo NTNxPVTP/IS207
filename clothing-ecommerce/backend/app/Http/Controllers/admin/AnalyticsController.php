@@ -23,10 +23,13 @@ class AnalyticsController extends Controller
                 ->orderBy('label')
                 ->get(),
 
-            // 'by_category' => OrderItem::join('products', 'order_item.id_product', '=', 'products.id_product')
-            //     ->selectRaw('products.category as label, SUM(order_item.quantity * order_item.price_at_order_time) as total')
-            //     ->groupBy('products.category')
-            //     ->get(),
+            'by_category' => OrderItem::join('product', 'order_item.id_product', '=', 'product.id_product')
+                ->join('product_category', 'product.id_product', '=', 'product_category.id_product')
+                ->join('category', 'product_category.id_category', '=', 'category.id_category')
+                ->selectRaw('category.name as label, SUM(order_item.quantity * order_item.price_at_order_time) as total')
+                ->groupBy('category.name')
+                ->get(),
+
         ];
 
         return response()->json($data);
