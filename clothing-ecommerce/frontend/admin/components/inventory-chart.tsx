@@ -17,28 +17,37 @@ const tShirtsData = [
   { name: "Red", stock: 25, lowStock: 3 },
 ]
 
-export function InventoryChart({ filter }: { filter: string }) {
-  const getData = () => {
-    switch (filter) {
-      case "t-shirts":
-        return tShirtsData
-      case "all":
-      default:
-        return allCategoriesData
-    }
-  }
+type ProductItem = {
+  product: string
+  stock: number
+}
+
+type CategoryItem = {
+  // backend format bạn mô tả:
+  // { category: "Quần áo", products: [...], total_quantity: 170 }
+  category: string // hoặc 'name' tuỳ bạn gửi key là gì, ở đây mình dùng 'category'
+  products: ProductItem[]
+  total_quantity: number
+}
+
+type InventoryChartProps = {
+  filter?: string
+  data: CategoryItem[]
+}
+
+export function InventoryChart({ filter, data }: InventoryChartProps) {
 
   return (
     <ResponsiveContainer width="100%" height={350}>
-      <BarChart data={getData()}>
+      <BarChart data={data}>
         <XAxis dataKey="name" stroke="#888888" fontSize={12} tickLine={false} axisLine={false} />
         <YAxis stroke="#888888" fontSize={12} tickLine={false} axisLine={false} />
         <Tooltip
-          formatter={(value, name) => [value, name === "stock" ? "In Stock" : "Low Stock"]}
+          formatter={(value, name) => [value, name === "total_quantity" ? "Total Quantity" : "Total Value"]}
           labelStyle={{ color: "#000" }}
         />
-        <Bar dataKey="stock" fill="#adfa1d" radius={[4, 4, 0, 0]} />
-        <Bar dataKey="lowStock" fill="#ef4444" radius={[4, 4, 0, 0]} />
+        <Bar dataKey="total_quantity" fill="#adfa1d" radius={[4, 4, 0, 0]} />
+        {/* <Bar dataKey="total_value" fill="#ef4444" radius={[4, 4, 0, 0]} /> */}
       </BarChart>
     </ResponsiveContainer>
   )

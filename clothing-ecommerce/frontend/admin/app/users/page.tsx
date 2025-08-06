@@ -64,13 +64,7 @@ export default function UsersPage() {
     return matchesSearch && matchesStatus
   })
 
-  // const toggleUserStatus = (userId) => {
-  //   setUsers(
-  //     users.map((user) =>
-  //       user.id === userId ? { ...user, status: user.status === "active" ? "disabled" : "active" } : user,
-  //     ),
-  //   )
-  // }
+
 
   const toggleUserStatus = async (userId) => {
     try {

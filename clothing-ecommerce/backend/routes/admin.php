@@ -39,3 +39,4 @@ Route::get('/order_item', [OrderItemController::class, 'index']);
 
 //analytics
 Route::get('/analytics/revenue', [AnalyticsController::class, 'revenue']);
+Route::get('/analytics/inventory', [AnalyticsController::class, 'inventory']);

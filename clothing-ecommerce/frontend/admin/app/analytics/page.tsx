@@ -16,6 +16,26 @@ export default function AnalyticsPage() {
     by_month: [],
     by_category: []
   });
+
+  const [inventoryData, setInventoryData] = useState([]);
+
+
+
+  const getInventoryData = async () => {
+    try {
+      const response = await fetch('http://127.0.0.1:8000/admin/analytics/inventory');
+      const data = await response.json();
+      console.log('Dữ liệu từ API:', data);
+      setInventoryData(data);
+    } catch (error) {
+      console.error('Lỗi gọi API:', error);
+    }
+  }
+  useEffect(() => {
+    getInventoryData();
+  }, []);
+
+
   const [selectedFilter, setSelectedFilter] = useState<'by_day' | 'by_month' | 'by_category'>('by_month');
 
   useEffect(() => {
@@ -181,7 +201,7 @@ export default function AnalyticsPage() {
               </div>
             </CardHeader>
             <CardContent>
-              <InventoryChart filter={inventoryFilter} />
+              <InventoryChart data={inventoryData} filter={inventoryFilter} />
             </CardContent>
           </Card>
         </TabsContent>

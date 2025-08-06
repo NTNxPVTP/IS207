@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\OrderItem;
 use App\Models\Order;
+use App\Models\Admin\Product;
 
 
 class AnalyticsController extends Controller
@@ -33,5 +35,34 @@ class AnalyticsController extends Controller
         ];
 
         return response()->json($data);
+    }
+
+    public function inventory(Request $request)
+    {
+        $categories = DB::table('category as c')
+            ->join('product_category as pc', 'c.id_category', '=', 'pc.id_category')
+            ->join('product as p', 'p.id_product', '=', 'pc.id_product')
+            ->select(
+                'c.name as category',
+                'p.name as product',
+                'p.stock_quantity as stock'
+            )
+            ->get()
+            ->groupBy('category')
+            ->map(function ($items, $categoryName) {
+                return [
+                    'category' => $categoryName,
+                    'products' => $items->map(function ($item) {
+                        return [
+                            'product' => $item->product,
+                            'stock' => $item->stock
+                        ];
+                    })->values(),
+                    'total_quantity' => $items->sum('stock')
+                ];
+            })
+            ->values();
+
+        return response()->json($categories);
     }
 }
