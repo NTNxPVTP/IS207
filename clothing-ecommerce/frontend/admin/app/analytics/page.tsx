@@ -192,10 +192,11 @@ export default function AnalyticsPage() {
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="all">All Categories</SelectItem>
-                    <SelectItem value="t-shirts">T-Shirts</SelectItem>
-                    <SelectItem value="jeans">Jeans</SelectItem>
-                    <SelectItem value="dresses">Dresses</SelectItem>
-                    <SelectItem value="shoes">Shoes</SelectItem>
+                    {inventoryData.map((item) => (
+                      <SelectItem key={item.category} value={item.category}>
+                        {item.category}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
               </div>
