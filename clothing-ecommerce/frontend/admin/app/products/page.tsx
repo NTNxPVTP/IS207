@@ -1,10 +1,9 @@
 "use client"
-
 import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
-import { Eye, EyeOff } from "lucide-react"
+import { Eye, EyeOff, X } from 'lucide-react'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import {
@@ -15,10 +14,136 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
-import { Search, Plus, Edit, Trash2 } from "lucide-react"
+import { Checkbox } from "@/components/ui/checkbox"
+import { Search, Plus, Edit, ChevronDown } from 'lucide-react'
 import Image from "next/image"
+
+// Multi Select Component with Search Filter
+function MultiSelectCategories({ value, onChange, placeholder = "Select categories..." }) {
+  const [open, setOpen] = useState(false)
+  const [searchTerm, setSearchTerm] = useState("")
+  
+  const categories = ["T-Shirts", "Jeans", "Dresses", "Shoes", "Accessories", "Jackets", "Shorts", "Hoodies", "Sweaters", "Pants", "Skirts", "Blouses"]
+  
+  // Filter categories based on search term
+  const filteredCategories = categories.filter(category =>
+    category.toLowerCase().includes(searchTerm.toLowerCase())
+  )
+  
+  const handleSelect = (category) => {
+    const newValue = value.includes(category)
+      ? value.filter(item => item !== category)
+      : [...value, category]
+    onChange(newValue)
+  }
+  
+  const removeCategory = (categoryToRemove) => {
+    onChange(value.filter(item => item !== categoryToRemove))
+  }
+  
+  // Clear search when popover closes
+  const handleOpenChange = (isOpen) => {
+    setOpen(isOpen)
+    if (!isOpen) {
+      setSearchTerm("")
+    }
+  }
+  
+  return (
+    <div className="space-y-2">
+      <Popover open={open} onOpenChange={handleOpenChange}>
+        <PopoverTrigger asChild>
+          <Button
+            variant="outline"
+            role="combobox"
+            aria-expanded={open}
+            className="w-full justify-between"
+          >
+            {value.length === 0 ? placeholder : `${value.length} categories selected`}
+            <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent className="w-full p-0">
+          <div className="p-2">
+            {/* Search Input */}
+            <div className="relative mb-2">
+              <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+              <Input
+                placeholder="Search categories..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="pl-8 h-9"
+                autoFocus
+              />
+            </div>
+            
+            {/* Categories List */}
+            <div className="max-h-48 overflow-y-auto">
+              {filteredCategories.length === 0 ? (
+                <div className="p-2 text-sm text-muted-foreground text-center">
+                  No categories found
+                </div>
+              ) : (
+                filteredCategories.map((category) => (
+                  <div key={category} className="flex items-center space-x-2 p-2 hover:bg-gray-100 rounded cursor-pointer">
+                    <Checkbox
+                      id={category}
+                      checked={value.includes(category)}
+                      onCheckedChange={() => handleSelect(category)}
+                    />
+                    <Label htmlFor={category} className="flex-1 cursor-pointer">
+                      {category}
+                    </Label>
+                  </div>
+                ))
+              )}
+            </div>
+            
+            {/* Quick Actions */}
+            {value.length > 0 && (
+              <div className="border-t pt-2 mt-2">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => onChange([])}
+                  className="w-full text-xs"
+                >
+                  Clear All ({value.length})
+                </Button>
+              </div>
+            )}
+          </div>
+        </PopoverContent>
+      </Popover>
+      
+      {/* Selected categories display */}
+      {value.length > 0 && (
+        <div className="flex flex-wrap gap-1">
+          {value.map((category) => (
+            <Badge key={category} variant="secondary" className="text-xs">
+              {category}
+              <Button
+                variant="ghost"
+                size="sm"
+                className="ml-1 h-auto p-0 text-muted-foreground hover:text-foreground"
+                onClick={() => removeCategory(category)}
+              >
+                <X className="h-3 w-3" />
+              </Button>
+            </Badge>
+          ))}
+        </div>
+      )}
+    </div>
+  )
+}
 
 const mockProducts = [
   {
@@ -26,7 +151,7 @@ const mockProducts = [
     name: "Classic White T-Shirt",
     description: "Comfortable cotton t-shirt",
     price: 29.99,
-    category: "T-Shirts",
+    categories: ["T-Shirts", "Accessories"], // Changed to array
     stock: 150,
     status: "active",
     image: "/placeholder.svg?height=50&width=50",
@@ -36,7 +161,7 @@ const mockProducts = [
     name: "Blue Denim Jeans",
     description: "Premium denim jeans",
     price: 79.99,
-    category: "Jeans",
+    categories: ["Jeans"], // Changed to array
     stock: 75,
     status: "active",
     image: "/placeholder.svg?height=50&width=50",
@@ -46,7 +171,7 @@ const mockProducts = [
     name: "Summer Dress",
     description: "Light and airy summer dress",
     price: 59.99,
-    category: "Dresses",
+    categories: ["Dresses", "Accessories"], // Changed to array
     stock: 0,
     status: "out_of_stock",
     image: "/placeholder.svg?height=50&width=50",
@@ -63,18 +188,18 @@ export default function ProductsPage() {
     name: "",
     description: "",
     price: "",
-    category: "",
+    categories: [], // Changed to array
     stock_quantity: "",
   })
 
   const filteredProducts = products.filter((product) => {
     const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase())
-    const matchesCategory = categoryFilter === "all" || product.category === categoryFilter
+    const matchesCategory = categoryFilter === "all" || 
+      (product.categories && product.categories.includes(categoryFilter))
     return matchesSearch && matchesCategory && product.status !== "deleted"
   })
 
   const handleAddProduct = async () => {
-
     try {
       const productToAdd = {
         ...newProduct,
@@ -86,29 +211,32 @@ export default function ProductsPage() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(newProduct),
+        body: JSON.stringify(productToAdd),
       });
-
       if (!response.ok) {
         throw new Error("Lỗi khi thêm sản phẩm");
       }
-
       const savedProduct = await response.json();
       console.log("Đã thêm sản phẩm:", savedProduct);
-
+      
+      // Reset form
+      setNewProduct({
+        name: "",
+        description: "",
+        price: "",
+        categories: [],
+        stock_quantity: "",
+      })
+      setIsAddDialogOpen(false)
+      
       // Sau khi thêm thành công, load lại danh sách
       await getProducts();
-
-
       setMessage("Thêm sản phẩm thành công!");
-
     } catch (error) {
       console.error("Lỗi thêm sản phẩm:", error);
       setMessage("Không thể thêm sản phẩm.");
     }
   };
-
-
 
   const handleEditProduct = async () => {
     try {
@@ -117,43 +245,33 @@ export default function ProductsPage() {
         price: parseFloat(editingProduct.price),
         stock_quantity: parseInt(editingProduct.stock_quantity),
       };
-
-
-
       const response = await fetch(`http://127.0.0.1:8000/admin/products/${editingProduct.id_product}`, {
-        method: "PUT", // hoặc "PATCH" tùy backend
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(productToUpdate),
       });
-
       if (!response.ok) {
         throw new Error("Lỗi khi cập nhật sản phẩm");
       }
-
       const updatedProduct = await response.json();
       console.log("Đã cập nhật:", updatedProduct);
-
       setMessage("Cập nhật sản phẩm thành công!");
-
+      setEditingProduct(null);
       // Làm mới danh sách
       await getProducts();
-
-      // setEditingProduct(null);
     } catch (error) {
       console.error("Lỗi khi cập nhật:", error);
       setMessage("Không thể cập nhật sản phẩm.");
     }
   };
 
-
-
   const handleToggleVisibility = async (productId, currentVisibility) => {
     console.log(productId);
     try {
       const response = await fetch(`http://127.0.0.1:8000/admin/products/${productId}/toggle-visibility`, {
-        method: "PATCH", // PATCH vì bạn chỉ thay đổi 1 trường
+        method: "PATCH",
         headers: {
           "Content-Type": "application/json",
         },
@@ -161,14 +279,11 @@ export default function ProductsPage() {
           is_visible: currentVisibility === 1 ? 0 : 1,
         }),
       });
-
       if (!response.ok) {
         throw new Error("Lỗi khi thay đổi trạng thái hiển thị");
       }
-
       const updated = await response.json();
       console.log("Đã cập nhật is_visible:", updated);
-
       // Cập nhật lại danh sách
       await getProducts();
     } catch (error) {
@@ -177,15 +292,13 @@ export default function ProductsPage() {
     }
   };
 
-
   const [message, setMessage] = useState('');
-
+  
   const getProducts = async () => {
     try {
       const response = await fetch('http://127.0.0.1:8000/admin/products');
       const data = await response.json();
       console.log('Dữ liệu từ API:', data);
-
       setProducts(data);
     } catch (error) {
       console.error('Lỗi gọi API:', error);
@@ -197,8 +310,17 @@ export default function ProductsPage() {
     getProducts();
   }, []);
 
+  // Get unique categories for filter dropdown
+  const allCategories = [...new Set(products.flatMap(product => product.categories || []))]
+
   return (
     <div className="flex-1 space-y-4 p-8 pt-6">
+      {message && (
+        <div className="bg-blue-100 border border-blue-400 text-blue-700 px-4 py-3 rounded mb-4">
+          {message}
+        </div>
+      )}
+      
       <div className="flex items-center justify-between">
         <h2 className="text-3xl font-bold tracking-tight">Product Management</h2>
         <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
@@ -208,7 +330,7 @@ export default function ProductsPage() {
               Add Product
             </Button>
           </DialogTrigger>
-          <DialogContent>
+          <DialogContent className="max-w-md">
             <DialogHeader>
               <DialogTitle>Add New Product</DialogTitle>
               <DialogDescription>Add a new product to your inventory</DialogDescription>
@@ -241,21 +363,12 @@ export default function ProductsPage() {
                 />
               </div>
               <div>
-                <Label htmlFor="category">Category</Label>
-                <Select
-                  value={newProduct.category}
-                  onValueChange={(value) => setNewProduct({ ...newProduct, category: value })}
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select category" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="T-Shirts">T-Shirts</SelectItem>
-                    <SelectItem value="Jeans">Jeans</SelectItem>
-                    <SelectItem value="Dresses">Dresses</SelectItem>
-                    <SelectItem value="Shoes">Shoes</SelectItem>
-                  </SelectContent>
-                </Select>
+                <Label htmlFor="categories">Categories</Label>
+                <MultiSelectCategories
+                  value={newProduct.categories}
+                  onChange={(categories) => setNewProduct({ ...newProduct, categories })}
+                  placeholder="Select categories..."
+                />
               </div>
               <div>
                 <Label htmlFor="stock">Stock Quantity</Label>
@@ -290,10 +403,11 @@ export default function ProductsPage() {
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="all">All Categories</SelectItem>
-            <SelectItem value="T-Shirts">T-Shirts</SelectItem>
-            <SelectItem value="Jeans">Jeans</SelectItem>
-            <SelectItem value="Dresses">Dresses</SelectItem>
-            <SelectItem value="Shoes">Shoes</SelectItem>
+            {allCategories.map((category) => (
+              <SelectItem key={category} value={category}>
+                {category}
+              </SelectItem>
+            ))}
           </SelectContent>
         </Select>
       </div>
@@ -304,7 +418,7 @@ export default function ProductsPage() {
             <TableRow>
               <TableHead>Image</TableHead>
               <TableHead>Name</TableHead>
-              <TableHead>Category</TableHead>
+              <TableHead>Categories</TableHead>
               <TableHead>Price</TableHead>
               <TableHead>Stock</TableHead>
               <TableHead>Status</TableHead>
@@ -324,8 +438,15 @@ export default function ProductsPage() {
                   />
                 </TableCell>
                 <TableCell className="font-medium">{product.name}</TableCell>
-                <TableCell>{product.category}</TableCell>
-                {/* <TableCell>${product.price.toFixed(2)}</TableCell> */}
+                <TableCell>
+                  <div className="flex flex-wrap gap-1">
+                    {(product.categories || []).map((category) => (
+                      <Badge key={category} variant="outline" className="text-xs">
+                        {category}
+                      </Badge>
+                    ))}
+                  </div>
+                </TableCell>
                 <TableCell>${product.price}</TableCell>
                 <TableCell>{product.stock_quantity}</TableCell>
                 <TableCell>
@@ -352,14 +473,15 @@ export default function ProductsPage() {
                             setEditingProduct({
                               ...product,
                               price: product.price.toString(),
-                              stock: product.stock_quantity.toString(),
+                              stock_quantity: product.stock_quantity.toString(),
+                              categories: product.categories || [],
                             })
                           }
                         >
                           <Edit className="h-4 w-4" />
                         </Button>
                       </DialogTrigger>
-                      <DialogContent>
+                      <DialogContent className="max-w-md">
                         <DialogHeader>
                           <DialogTitle>Edit Product</DialogTitle>
                           <DialogDescription>Update product information</DialogDescription>
@@ -393,6 +515,14 @@ export default function ProductsPage() {
                               />
                             </div>
                             <div>
+                              <Label htmlFor="edit-categories">Categories</Label>
+                              <MultiSelectCategories
+                                value={editingProduct.categories || []}
+                                onChange={(categories) => setEditingProduct({ ...editingProduct, categories })}
+                                placeholder="Select categories..."
+                              />
+                            </div>
+                            <div>
                               <Label htmlFor="edit-stock">Stock Quantity</Label>
                               <Input
                                 id="edit-stock"
@@ -419,7 +549,6 @@ export default function ProductsPage() {
                         <EyeOff className="h-4 w-4" />
                       )}
                     </Button>
-
                   </div>
                 </TableCell>
               </TableRow>
