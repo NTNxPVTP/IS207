@@ -217,8 +217,10 @@ export default function ProductsPage() {
 
   const filteredProducts = products.filter((product) => {
     const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase())
-    const matchesCategory = categoryFilter === "all" ||
-      (product.categories && product.categories.includes(categoryFilter))
+    const matchesCategory =
+      categoryFilter === "all" ||
+      (product.categories && product.categories.some(c => c.id_category === categoryFilter))
+
     return matchesSearch && matchesCategory && product.status !== "deleted"
   })
 
@@ -334,7 +336,13 @@ export default function ProductsPage() {
   }, []);
 
   // Get unique categories for filter dropdown
-  const allCategories = [...new Set(products.flatMap(product => product.categories || []))]
+  const allCategories = Array.from(
+    new Map(
+      products
+        .flatMap(product => product.categories || [])
+        .map(c => [c.id_category, c]) // key: id_category, value: object category
+    ).values()
+  )
 
   return (
     <div className="flex-1 space-y-4 p-8 pt-6">
@@ -427,10 +435,11 @@ export default function ProductsPage() {
           <SelectContent>
             <SelectItem value="all">All Categories</SelectItem>
             {allCategories.map((category) => (
-              <SelectItem key={category} value={category}>
-                {category}
+              <SelectItem key={category.id_category} value={category.id_category}>
+                {category.name}
               </SelectItem>
             ))}
+
           </SelectContent>
         </Select>
       </div>
@@ -464,8 +473,8 @@ export default function ProductsPage() {
                 <TableCell>
                   <div className="flex flex-wrap gap-1">
                     {(product.categories || []).map((category) => (
-                      <Badge key={category} variant="outline" className="text-xs">
-                        {category}
+                      <Badge key={category.id_category} variant="outline" className="text-xs">
+                        {category.name}
                       </Badge>
                     ))}
                   </div>

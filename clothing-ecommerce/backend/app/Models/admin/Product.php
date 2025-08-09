@@ -3,6 +3,7 @@
 namespace App\Models\admin;
 use Illuminate\Support\Str; 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Category;
 
 class Product extends Model
 {
@@ -31,5 +32,14 @@ class Product extends Model
                 $model->id_product = (string) Str::ulid();
             }
         });
+    }
+    public function categories()
+    {
+        return $this->belongsToMany(
+            Category::class,
+            'Product_Category',
+            'id_product',
+            'id_category'
+        );
     }
 }
