@@ -25,37 +25,59 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { Search, Plus, Edit, ChevronDown } from 'lucide-react'
 import Image from "next/image"
 
+
+
+
 // Multi Select Component with Search Filter
 function MultiSelectCategories({ value, onChange, placeholder = "Select categories..." }) {
   const [open, setOpen] = useState(false)
-  const [searchTerm, setSearchTerm] = useState("")
-  
-  const categories = ["T-Shirts", "Jeans", "Dresses", "Shoes", "Accessories", "Jackets", "Shorts", "Hoodies", "Sweaters", "Pants", "Skirts", "Blouses"]
-  
+  const [searchTerm, setSearchTerm] = useState("");
+  const [categories, setCategories] = useState([]); // <-- state
+
+  const fetchCategories = async () => {
+    try {
+      const res = await fetch("http://127.0.0.1:8000/admin/categories");
+      const data = await res.json();
+      // Giả sử API trả về [{ id_category: "uuid", name: "T-Shirts", parent_id: null }, ...]
+      console.log(data);
+      setCategories(data);
+      // Nếu muốn giữ cả id thì giữ nguyên data
+    } catch (err) {
+      console.error("Lỗi load categories:", err);
+    }
+  };
+  useEffect(() => {
+    fetchCategories();
+  }, []);
   // Filter categories based on search term
   const filteredCategories = categories.filter(category =>
-    category.toLowerCase().includes(searchTerm.toLowerCase())
+    category.name.toLowerCase().includes(searchTerm.toLowerCase())
   )
-  
+
+  // Chọn / bỏ chọn category
   const handleSelect = (category) => {
-    const newValue = value.includes(category)
-      ? value.filter(item => item !== category)
+    const exists = value.some(c => c.id_category === category.id_category)
+    const newValue = exists
+      ? value.filter(c => c.id_category !== category.id_category)
       : [...value, category]
     onChange(newValue)
   }
-  
-  const removeCategory = (categoryToRemove) => {
-    onChange(value.filter(item => item !== categoryToRemove))
+
+
+  // Xóa category đã chọn
+  const removeCategory = (id) => {
+    onChange(value.filter(c => c.id_category !== id))
   }
-  
-  // Clear search when popover closes
+
+
+  // Clear search khi đóng popover
   const handleOpenChange = (isOpen) => {
     setOpen(isOpen)
     if (!isOpen) {
       setSearchTerm("")
     }
   }
-  
+
   return (
     <div className="space-y-2">
       <Popover open={open} onOpenChange={handleOpenChange}>
@@ -83,7 +105,7 @@ function MultiSelectCategories({ value, onChange, placeholder = "Select categori
                 autoFocus
               />
             </div>
-            
+
             {/* Categories List */}
             <div className="max-h-48 overflow-y-auto">
               {filteredCategories.length === 0 ? (
@@ -92,20 +114,20 @@ function MultiSelectCategories({ value, onChange, placeholder = "Select categori
                 </div>
               ) : (
                 filteredCategories.map((category) => (
-                  <div key={category} className="flex items-center space-x-2 p-2 hover:bg-gray-100 rounded cursor-pointer">
+                  <div key={category.id_category} className="flex items-center space-x-2 p-2 hover:bg-gray-100 rounded cursor-pointer">
                     <Checkbox
-                      id={category}
-                      checked={value.includes(category)}
+                      id={category.id_category}
+                      checked={value.some(c => c.id_category === category.id_category)}
                       onCheckedChange={() => handleSelect(category)}
                     />
-                    <Label htmlFor={category} className="flex-1 cursor-pointer">
-                      {category}
+                    <Label htmlFor={category.id_category} className="flex-1 cursor-pointer">
+                      {category.name}
                     </Label>
                   </div>
                 ))
               )}
             </div>
-            
+
             {/* Quick Actions */}
             {value.length > 0 && (
               <div className="border-t pt-2 mt-2">
@@ -122,23 +144,24 @@ function MultiSelectCategories({ value, onChange, placeholder = "Select categori
           </div>
         </PopoverContent>
       </Popover>
-      
+
       {/* Selected categories display */}
       {value.length > 0 && (
         <div className="flex flex-wrap gap-1">
           {value.map((category) => (
-            <Badge key={category} variant="secondary" className="text-xs">
-              {category}
+            <Badge key={category.id_category} variant="secondary" className="text-xs">
+              {category.name}
               <Button
                 variant="ghost"
                 size="sm"
                 className="ml-1 h-auto p-0 text-muted-foreground hover:text-foreground"
-                onClick={() => removeCategory(category)}
+                onClick={() => removeCategory(category.id_category)}
               >
                 <X className="h-3 w-3" />
               </Button>
             </Badge>
           ))}
+
         </div>
       )}
     </div>
@@ -194,7 +217,7 @@ export default function ProductsPage() {
 
   const filteredProducts = products.filter((product) => {
     const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase())
-    const matchesCategory = categoryFilter === "all" || 
+    const matchesCategory = categoryFilter === "all" ||
       (product.categories && product.categories.includes(categoryFilter))
     return matchesSearch && matchesCategory && product.status !== "deleted"
   })
@@ -218,7 +241,7 @@ export default function ProductsPage() {
       }
       const savedProduct = await response.json();
       console.log("Đã thêm sản phẩm:", savedProduct);
-      
+
       // Reset form
       setNewProduct({
         name: "",
@@ -228,7 +251,7 @@ export default function ProductsPage() {
         stock_quantity: "",
       })
       setIsAddDialogOpen(false)
-      
+
       // Sau khi thêm thành công, load lại danh sách
       await getProducts();
       setMessage("Thêm sản phẩm thành công!");
@@ -293,7 +316,7 @@ export default function ProductsPage() {
   };
 
   const [message, setMessage] = useState('');
-  
+
   const getProducts = async () => {
     try {
       const response = await fetch('http://127.0.0.1:8000/admin/products');
@@ -320,7 +343,7 @@ export default function ProductsPage() {
           {message}
         </div>
       )}
-      
+
       <div className="flex items-center justify-between">
         <h2 className="text-3xl font-bold tracking-tight">Product Management</h2>
         <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>

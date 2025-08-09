@@ -5,8 +5,7 @@ use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\OrderItemController;
 use App\Http\Controllers\Admin\AnalyticsController;
-
-
+use App\Http\Controllers\Admin\CategoryController;
 
 
 use Illuminate\Http\Request;
@@ -29,6 +28,9 @@ Route::get('/products', [ProductController::class, 'index']);
 Route::post('/products', [ProductController::class, 'store']);
 Route::put('/products/{id_product}', [ProductController::class, 'update']);
 Route::patch('/products/{id}/toggle-visibility', [ProductController::class, 'toggleVisibility']);
+
+//category
+Route::get('/categories', [CategoryController::class, 'index']);
 
 //orders
 Route::get('/orders', [OrderController::class, 'index']);
