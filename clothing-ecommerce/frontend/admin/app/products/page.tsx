@@ -228,9 +228,11 @@ export default function ProductsPage() {
     try {
       const productToAdd = {
         ...newProduct,
+        categories: newProduct.categories.map(c => c.id_category), // chỉ gửi ID
         price: parseFloat(newProduct.price),
         stock_quantity: parseInt(newProduct.stock_quantity),
       }
+
       const response = await fetch("http://127.0.0.1:8000/admin/products", {
         method: "POST",
         headers: {

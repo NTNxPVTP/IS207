@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\admin;
+use Illuminate\Support\Str;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -25,17 +26,31 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'name' => 'required|string',
+            'name' => 'required|string|max:100',
             'description' => 'nullable|string',
-            'price' => 'nullable|numeric',
-            'category' => 'nullable|string',
-            'stock_quantity' => 'nullable|integer',
+            'price' => 'required|numeric',
+            'stock_quantity' => 'required|integer',
+            'categories' => 'array', // mảng id_category
+            'categories.*' => 'exists:Category,id_category',
         ]);
 
-        $product = Product::create($validated);
+        // Tạo product
+        $product = Product::create([
+            'id_product' => (string) Str::uuid(),
+            'name' => $validated['name'],
+            'description' => $validated['description'] ?? null,
+            'price' => $validated['price'],
+            'stock_quantity' => $validated['stock_quantity'],
+        ]);
 
-        return response()->json($product);
+        // Ghi vào bảng Product_Category
+        if (!empty($validated['categories'])) {
+            $product->categories()->attach($validated['categories']);
+        }
+
+        return response()->json($product->load('categories'));
     }
+
 
     public function update(Request $request, $id_product)
     {
