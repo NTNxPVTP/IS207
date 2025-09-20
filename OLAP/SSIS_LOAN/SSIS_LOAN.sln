@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36429.23 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{C9674DCB-5085-4A16-B785-4C70DD1589BD}") = "SSIS_LOAN", "SSIS_LOAN\SSIS_LOAN.dtproj", "{DC7C6C1F-7D14-3EEF-6FDB-68974251DB35}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Azure|Default = Azure|Default
+		Development|Default = Development|Default
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DC7C6C1F-7D14-3EEF-6FDB-68974251DB35}.Azure|Default.ActiveCfg = Azure
+		{DC7C6C1F-7D14-3EEF-6FDB-68974251DB35}.Azure|Default.Build.0 = Azure
+		{DC7C6C1F-7D14-3EEF-6FDB-68974251DB35}.Development|Default.ActiveCfg = Development
+		{DC7C6C1F-7D14-3EEF-6FDB-68974251DB35}.Development|Default.Build.0 = Development
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {100FF8A9-8769-465E-85FE-40359CB77F3B}
+	EndGlobalSection
+EndGlobal

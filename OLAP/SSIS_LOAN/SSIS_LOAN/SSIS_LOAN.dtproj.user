@@ -2,7 +2,7 @@
 <DataTransformationsUserConfiguration xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Configurations>
     <Configuration>
-      <Name>Development</Name>
+      <Name>Azure</Name>
       <Options>
         <AssessmentRuleSuppressionSetting />
         <UseWinAuth>false</UseWinAuth>
@@ -16,9 +16,23 @@
           <ConfigurationSetting>
             <Id>LastModifiedTime</Id>
             <Name>LastModifiedTime</Name>
-            <Value xsi:type="xsd:dateTime">2025-09-10T13:42:09.7380412Z</Value>
+            <Value xsi:type="xsd:dateTime">2025-09-20T07:31:39.8728232Z</Value>
           </ConfigurationSetting>
         </ParameterConfigurationSensitiveValues>
+      </Options>
+    </Configuration>
+    <Configuration>
+      <Name>Development</Name>
+      <Options>
+        <AssessmentRuleSuppressionSetting />
+        <UseWinAuth>false</UseWinAuth>
+        <WinAuthUserName />
+        <WinAuthDomain />
+        <UserIDs />
+        <UserPasswords />
+        <OfflineMode>false</OfflineMode>
+        <ProgressReporting>true</ProgressReporting>
+        <ParameterConfigurationSensitiveValues />
       </Options>
     </Configuration>
   </Configurations>
