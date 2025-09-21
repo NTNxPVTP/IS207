@@ -10,5 +10,5 @@ select * from DIM_PURPOSE;
 select * from DIM_LOAN_TYPE;
 select * from DIM_LOAN_STATUS;
 select * from FACT_LOAN_APPLICATION;
-
+select * from DIM_FRAUD;
 
