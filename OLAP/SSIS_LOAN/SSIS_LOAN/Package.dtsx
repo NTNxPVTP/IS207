@@ -11,8 +11,8 @@
   DTS:LocaleID="1033"
   DTS:ObjectName="Package"
   DTS:PackageType="5"
-  DTS:VersionBuild="73"
-  DTS:VersionGUID="{EDBD3A9C-E7C5-4D42-9758-2EF5E854D75C}">
+  DTS:VersionBuild="80"
+  DTS:VersionGUID="{2F1A2F6E-496F-4037-AF05-3C7CE55DA85E}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -2104,6 +2104,935 @@
               endId="Package\Data Flow DIM_ADDRESS\Derived Column.Inputs[Derived Column Input]"
               name="Sort Output"
               startId="Package\Data Flow DIM_ADDRESS\Sort.Outputs[Sort Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Data Flow DIM_APPLICATION_DATE"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{4766E9B3-063B-485C-9BAA-525A492C5720}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Data Flow DIM_APPLICATION_DATE"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Data Flow DIM_APPLICATION_DATE\ADO NET Destination"
+              componentClassID="Microsoft.ManagedComponentHost"
+              contactInfo="Loads data into an ADO.NET-compliant database that uses a database table or view. Load data into a new or existing table. For example, use an ADO.NET provider for ODBC to load data into an ODBC destination.;Microsoft Corporation; Microsoft SQL Server; © Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;2"
+              description="Loads data into an ADO.NET-compliant database that uses a database table or view. Load data into a new or existing table. For example, use an ADO.NET provider for ODBC to load data into an ODBC destination."
+              name="ADO NET Destination"
+              usesDispositions="true"
+              version="2">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="The Destination database table name."
+                  expressionType="Notify"
+                  name="TableOrViewName"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">"dbo"."DIM_APPLICATION_DATE"</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specify the number of rows per batch. The default is 0 which uses the same size as SSIS internal buffer. "
+                  expressionType="Notify"
+                  name="BatchSize">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out. A value of 0 indicates infinite time-out. "
+                  expressionType="Notify"
+                  name="CommandTimeout">30</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Specifies whether to use the SqlBulkCopy interface to improve the performance of bulk insert operations. Only certain providers support this interface."
+                  expressionType="Notify"
+                  name="UseBulkInsertWhenPossible">true</property>
+                <property
+                  dataType="System.String"
+                  name="UserComponentTypeName">Microsoft.ADONETDestination</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Data Flow DIM_APPLICATION_DATE\ADO NET Destination.Connections[IDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[localhost.DW_Loan]"
+                  connectionManagerRefId="Package.ConnectionManagers[localhost.DW_Loan]"
+                  description="Managed connection manager"
+                  name="IDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Data Flow DIM_APPLICATION_DATE\ADO NET Destination.Inputs[ADO NET Destination Input]"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="ADO NET Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Data Flow DIM_APPLICATION_DATE\ADO NET Destination.Inputs[ADO NET Destination Input].Columns[application_date]"
+                      cachedDataType="date"
+                      cachedName="application_date"
+                      externalMetadataColumnId="Package\Data Flow DIM_APPLICATION_DATE\ADO NET Destination.Inputs[ADO NET Destination Input].ExternalColumns[APPLICATION_DATE]"
+                      lineageId="Package\Data Flow DIM_APPLICATION_DATE\Flat File Source.Outputs[Flat File Source Output].Columns[application_date]" />
+                    <inputColumn
+                      refId="Package\Data Flow DIM_APPLICATION_DATE\ADO NET Destination.Inputs[ADO NET Destination Input].Columns[YEAR]"
+                      cachedDataType="i4"
+                      cachedName="YEAR"
+                      externalMetadataColumnId="Package\Data Flow DIM_APPLICATION_DATE\ADO NET Destination.Inputs[ADO NET Destination Input].ExternalColumns[Year]"
+                      lineageId="Package\Data Flow DIM_APPLICATION_DATE\Derived Column.Outputs[Derived Column Output].Columns[YEAR]" />
+                    <inputColumn
+                      refId="Package\Data Flow DIM_APPLICATION_DATE\ADO NET Destination.Inputs[ADO NET Destination Input].Columns[MONTH]"
+                      cachedDataType="i4"
+                      cachedName="MONTH"
+                      externalMetadataColumnId="Package\Data Flow DIM_APPLICATION_DATE\ADO NET Destination.Inputs[ADO NET Destination Input].ExternalColumns[Month]"
+                      lineageId="Package\Data Flow DIM_APPLICATION_DATE\Derived Column.Outputs[Derived Column Output].Columns[MONTH]" />
+                    <inputColumn
+                      refId="Package\Data Flow DIM_APPLICATION_DATE\ADO NET Destination.Inputs[ADO NET Destination Input].Columns[DAY]"
+                      cachedDataType="i4"
+                      cachedName="DAY"
+                      externalMetadataColumnId="Package\Data Flow DIM_APPLICATION_DATE\ADO NET Destination.Inputs[ADO NET Destination Input].ExternalColumns[Day]"
+                      lineageId="Package\Data Flow DIM_APPLICATION_DATE\Derived Column.Outputs[Derived Column Output].Columns[DAY]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Data Flow DIM_APPLICATION_DATE\ADO NET Destination.Inputs[ADO NET Destination Input].ExternalColumns[APPLICATION_DATE]"
+                      dataType="dbTimeStamp"
+                      name="APPLICATION_DATE" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow DIM_APPLICATION_DATE\ADO NET Destination.Inputs[ADO NET Destination Input].ExternalColumns[Day]"
+                      dataType="i4"
+                      name="Day" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow DIM_APPLICATION_DATE\ADO NET Destination.Inputs[ADO NET Destination Input].ExternalColumns[Month]"
+                      dataType="i4"
+                      name="Month" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow DIM_APPLICATION_DATE\ADO NET Destination.Inputs[ADO NET Destination Input].ExternalColumns[Year]"
+                      dataType="i4"
+                      name="Year" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow DIM_APPLICATION_DATE\ADO NET Destination.Inputs[ADO NET Destination Input].ExternalColumns[application_date_key]"
+                      dataType="i4"
+                      name="application_date_key" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Data Flow DIM_APPLICATION_DATE\ADO NET Destination.Outputs[ADO NET Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="ADO NET Destination Error Output"
+                  synchronousInputId="Package\Data Flow DIM_APPLICATION_DATE\ADO NET Destination.Inputs[ADO NET Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow DIM_APPLICATION_DATE\ADO NET Destination.Outputs[ADO NET Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow DIM_APPLICATION_DATE\ADO NET Destination.Outputs[ADO NET Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Data Flow DIM_APPLICATION_DATE\ADO NET Destination.Outputs[ADO NET Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow DIM_APPLICATION_DATE\ADO NET Destination.Outputs[ADO NET Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Data Flow DIM_APPLICATION_DATE\Derived Column"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="Derived Column"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Data Flow DIM_APPLICATION_DATE\Derived Column.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Data Flow DIM_APPLICATION_DATE\Derived Column.Inputs[Derived Column Input].Columns[application_date]"
+                      cachedDataType="date"
+                      cachedName="application_date"
+                      lineageId="Package\Data Flow DIM_APPLICATION_DATE\Flat File Source.Outputs[Flat File Source Output].Columns[application_date]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Data Flow DIM_APPLICATION_DATE\Derived Column.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\Data Flow DIM_APPLICATION_DATE\Derived Column.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow DIM_APPLICATION_DATE\Derived Column.Outputs[Derived Column Output].Columns[YEAR]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Data Flow DIM_APPLICATION_DATE\Derived Column.Outputs[Derived Column Output].Columns[YEAR]"
+                      name="YEAR"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[YEAR](#{Package\Data Flow DIM_APPLICATION_DATE\Flat File Source.Outputs[Flat File Source Output].Columns[application_date]})</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">YEAR(application_date)</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow DIM_APPLICATION_DATE\Derived Column.Outputs[Derived Column Output].Columns[MONTH]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Data Flow DIM_APPLICATION_DATE\Derived Column.Outputs[Derived Column Output].Columns[MONTH]"
+                      name="MONTH"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[MONTH](#{Package\Data Flow DIM_APPLICATION_DATE\Flat File Source.Outputs[Flat File Source Output].Columns[application_date]})</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">MONTH(application_date)</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow DIM_APPLICATION_DATE\Derived Column.Outputs[Derived Column Output].Columns[DAY]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Data Flow DIM_APPLICATION_DATE\Derived Column.Outputs[Derived Column Output].Columns[DAY]"
+                      name="DAY"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[DAY](#{Package\Data Flow DIM_APPLICATION_DATE\Flat File Source.Outputs[Flat File Source Output].Columns[application_date]})</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">DAY(application_date)</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Data Flow DIM_APPLICATION_DATE\Derived Column.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\Data Flow DIM_APPLICATION_DATE\Derived Column.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow DIM_APPLICATION_DATE\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow DIM_APPLICATION_DATE\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Data Flow DIM_APPLICATION_DATE\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow DIM_APPLICATION_DATE\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Data Flow DIM_APPLICATION_DATE\Flat File Source"
+              componentClassID="Microsoft.FlatFileSource"
+              contactInfo="Flat File Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Flat File Source"
+              localeId="1033"
+              name="Flat File Source"
+              usesDispositions="true"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Boolean"
+                  description="Specifies whether zero-length columns are treated as null."
+                  name="RetainNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of an output column containing the file name. If no name is specified, no output column containing the file name will be generated."
+                  name="FileNameColumnName"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Data Flow DIM_APPLICATION_DATE\Flat File Source.Connections[FlatFileConnection]"
+                  connectionManagerID="Package.ConnectionManagers[Flat File Loan 2]"
+                  connectionManagerRefId="Package.ConnectionManagers[Flat File Loan 2]"
+                  name="FlatFileConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Data Flow DIM_APPLICATION_DATE\Flat File Source.Outputs[Flat File Source Output]"
+                  name="Flat File Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow DIM_APPLICATION_DATE\Flat File Source.Outputs[Flat File Source Output].Columns[application_id]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow DIM_APPLICATION_DATE\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[application_id]"
+                      length="500"
+                      lineageId="Package\Data Flow DIM_APPLICATION_DATE\Flat File Source.Outputs[Flat File Source Output].Columns[application_id]"
+                      name="application_id"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow DIM_APPLICATION_DATE\Flat File Source.Outputs[Flat File Source Output].Columns[customer_id]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow DIM_APPLICATION_DATE\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[customer_id]"
+                      length="500"
+                      lineageId="Package\Data Flow DIM_APPLICATION_DATE\Flat File Source.Outputs[Flat File Source Output].Columns[customer_id]"
+                      name="customer_id"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow DIM_APPLICATION_DATE\Flat File Source.Outputs[Flat File Source Output].Columns[application_date]"
+                      dataType="date"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow DIM_APPLICATION_DATE\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[application_date]"
+                      lineageId="Package\Data Flow DIM_APPLICATION_DATE\Flat File Source.Outputs[Flat File Source Output].Columns[application_date]"
+                      name="application_date"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow DIM_APPLICATION_DATE\Flat File Source.Outputs[Flat File Source Output].Columns[loan_type]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow DIM_APPLICATION_DATE\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[loan_type]"
+                      length="500"
+                      lineageId="Package\Data Flow DIM_APPLICATION_DATE\Flat File Source.Outputs[Flat File Source Output].Columns[loan_type]"
+                      name="loan_type"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow DIM_APPLICATION_DATE\Flat File Source.Outputs[Flat File Source Output].Columns[loan_amount_requested]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow DIM_APPLICATION_DATE\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[loan_amount_requested]"
+                      length="500"
+                      lineageId="Package\Data Flow DIM_APPLICATION_DATE\Flat File Source.Outputs[Flat File Source Output].Columns[loan_amount_requested]"
+                      name="loan_amount_requested"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow DIM_APPLICATION_DATE\Flat File Source.Outputs[Flat File Source Output].Columns[loan_tenure_months]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow DIM_APPLICATION_DATE\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[loan_tenure_months]"
+                      length="500"
+                      lineageId="Package\Data Flow DIM_APPLICATION_DATE\Flat File Source.Outputs[Flat File Source Output].Columns[loan_tenure_months]"
+                      name="loan_tenure_months"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow DIM_APPLICATION_DATE\Flat File Source.Outputs[Flat File Source Output].Columns[interest_rate_offered]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow DIM_APPLICATION_DATE\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[interest_rate_offered]"
+                      length="500"
+                      lineageId="Package\Data Flow DIM_APPLICATION_DATE\Flat File Source.Outputs[Flat File Source Output].Columns[interest_rate_offered]"
+                      name="interest_rate_offered"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow DIM_APPLICATION_DATE\Flat File Source.Outputs[Flat File Source Output].Columns[purpose_of_loan]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow DIM_APPLICATION_DATE\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[purpose_of_loan]"
+                      length="500"
+                      lineageId="Package\Data Flow DIM_APPLICATION_DATE\Flat File Source.Outputs[Flat File Source Output].Columns[purpose_of_loan]"
+                      name="purpose_of_loan"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow DIM_APPLICATION_DATE\Flat File Source.Outputs[Flat File Source Output].Columns[employment_status]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow DIM_APPLICATION_DATE\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[employment_status]"
+                      length="500"
+                      lineageId="Package\Data Flow DIM_APPLICATION_DATE\Flat File Source.Outputs[Flat File Source Output].Columns[employment_status]"
+                      name="employment_status"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow DIM_APPLICATION_DATE\Flat File Source.Outputs[Flat File Source Output].Columns[monthly_income]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow DIM_APPLICATION_DATE\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[monthly_income]"
+                      length="500"
+                      lineageId="Package\Data Flow DIM_APPLICATION_DATE\Flat File Source.Outputs[Flat File Source Output].Columns[monthly_income]"
+                      name="monthly_income"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow DIM_APPLICATION_DATE\Flat File Source.Outputs[Flat File Source Output].Columns[cibil_score]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow DIM_APPLICATION_DATE\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[cibil_score]"
+                      length="500"
+                      lineageId="Package\Data Flow DIM_APPLICATION_DATE\Flat File Source.Outputs[Flat File Source Output].Columns[cibil_score]"
+                      name="cibil_score"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow DIM_APPLICATION_DATE\Flat File Source.Outputs[Flat File Source Output].Columns[existing_emis_monthly]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow DIM_APPLICATION_DATE\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[existing_emis_monthly]"
+                      length="500"
+                      lineageId="Package\Data Flow DIM_APPLICATION_DATE\Flat File Source.Outputs[Flat File Source Output].Columns[existing_emis_monthly]"
+                      name="existing_emis_monthly"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow DIM_APPLICATION_DATE\Flat File Source.Outputs[Flat File Source Output].Columns[debt_to_income_ratio]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow DIM_APPLICATION_DATE\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[debt_to_income_ratio]"
+                      length="500"
+                      lineageId="Package\Data Flow DIM_APPLICATION_DATE\Flat File Source.Outputs[Flat File Source Output].Columns[debt_to_income_ratio]"
+                      name="debt_to_income_ratio"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow DIM_APPLICATION_DATE\Flat File Source.Outputs[Flat File Source Output].Columns[property_ownership_status]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow DIM_APPLICATION_DATE\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[property_ownership_status]"
+                      length="500"
+                      lineageId="Package\Data Flow DIM_APPLICATION_DATE\Flat File Source.Outputs[Flat File Source Output].Columns[property_ownership_status]"
+                      name="property_ownership_status"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow DIM_APPLICATION_DATE\Flat File Source.Outputs[Flat File Source Output].Columns[residential_address]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow DIM_APPLICATION_DATE\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[residential_address]"
+                      length="500"
+                      lineageId="Package\Data Flow DIM_APPLICATION_DATE\Flat File Source.Outputs[Flat File Source Output].Columns[residential_address]"
+                      name="residential_address"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow DIM_APPLICATION_DATE\Flat File Source.Outputs[Flat File Source Output].Columns[applicant_age]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow DIM_APPLICATION_DATE\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[applicant_age]"
+                      length="500"
+                      lineageId="Package\Data Flow DIM_APPLICATION_DATE\Flat File Source.Outputs[Flat File Source Output].Columns[applicant_age]"
+                      name="applicant_age"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow DIM_APPLICATION_DATE\Flat File Source.Outputs[Flat File Source Output].Columns[gender]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow DIM_APPLICATION_DATE\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[gender]"
+                      length="500"
+                      lineageId="Package\Data Flow DIM_APPLICATION_DATE\Flat File Source.Outputs[Flat File Source Output].Columns[gender]"
+                      name="gender"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow DIM_APPLICATION_DATE\Flat File Source.Outputs[Flat File Source Output].Columns[number_of_dependents]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow DIM_APPLICATION_DATE\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[number_of_dependents]"
+                      length="500"
+                      lineageId="Package\Data Flow DIM_APPLICATION_DATE\Flat File Source.Outputs[Flat File Source Output].Columns[number_of_dependents]"
+                      name="number_of_dependents"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow DIM_APPLICATION_DATE\Flat File Source.Outputs[Flat File Source Output].Columns[loan_status]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow DIM_APPLICATION_DATE\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[loan_status]"
+                      length="500"
+                      lineageId="Package\Data Flow DIM_APPLICATION_DATE\Flat File Source.Outputs[Flat File Source Output].Columns[loan_status]"
+                      name="loan_status"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow DIM_APPLICATION_DATE\Flat File Source.Outputs[Flat File Source Output].Columns[fraud_flag]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow DIM_APPLICATION_DATE\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[fraud_flag]"
+                      length="500"
+                      lineageId="Package\Data Flow DIM_APPLICATION_DATE\Flat File Source.Outputs[Flat File Source Output].Columns[fraud_flag]"
+                      name="fraud_flag"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow DIM_APPLICATION_DATE\Flat File Source.Outputs[Flat File Source Output].Columns[fraud_type]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow DIM_APPLICATION_DATE\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[fraud_type]"
+                      length="500"
+                      lineageId="Package\Data Flow DIM_APPLICATION_DATE\Flat File Source.Outputs[Flat File Source Output].Columns[fraud_type]"
+                      name="fraud_type"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Data Flow DIM_APPLICATION_DATE\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[application_id]"
+                      codePage="1252"
+                      dataType="str"
+                      length="500"
+                      name="application_id" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow DIM_APPLICATION_DATE\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[customer_id]"
+                      codePage="1252"
+                      dataType="str"
+                      length="500"
+                      name="customer_id" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow DIM_APPLICATION_DATE\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[application_date]"
+                      codePage="1252"
+                      dataType="str"
+                      length="500"
+                      name="application_date" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow DIM_APPLICATION_DATE\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[loan_type]"
+                      codePage="1252"
+                      dataType="str"
+                      length="500"
+                      name="loan_type" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow DIM_APPLICATION_DATE\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[loan_amount_requested]"
+                      codePage="1252"
+                      dataType="str"
+                      length="500"
+                      name="loan_amount_requested" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow DIM_APPLICATION_DATE\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[loan_tenure_months]"
+                      codePage="1252"
+                      dataType="str"
+                      length="500"
+                      name="loan_tenure_months" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow DIM_APPLICATION_DATE\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[interest_rate_offered]"
+                      codePage="1252"
+                      dataType="str"
+                      length="500"
+                      name="interest_rate_offered" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow DIM_APPLICATION_DATE\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[purpose_of_loan]"
+                      codePage="1252"
+                      dataType="str"
+                      length="500"
+                      name="purpose_of_loan" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow DIM_APPLICATION_DATE\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[employment_status]"
+                      codePage="1252"
+                      dataType="str"
+                      length="500"
+                      name="employment_status" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow DIM_APPLICATION_DATE\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[monthly_income]"
+                      codePage="1252"
+                      dataType="str"
+                      length="500"
+                      name="monthly_income" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow DIM_APPLICATION_DATE\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[cibil_score]"
+                      codePage="1252"
+                      dataType="str"
+                      length="500"
+                      name="cibil_score" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow DIM_APPLICATION_DATE\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[existing_emis_monthly]"
+                      codePage="1252"
+                      dataType="str"
+                      length="500"
+                      name="existing_emis_monthly" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow DIM_APPLICATION_DATE\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[debt_to_income_ratio]"
+                      codePage="1252"
+                      dataType="str"
+                      length="500"
+                      name="debt_to_income_ratio" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow DIM_APPLICATION_DATE\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[property_ownership_status]"
+                      codePage="1252"
+                      dataType="str"
+                      length="500"
+                      name="property_ownership_status" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow DIM_APPLICATION_DATE\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[residential_address]"
+                      codePage="1252"
+                      dataType="str"
+                      length="500"
+                      name="residential_address" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow DIM_APPLICATION_DATE\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[applicant_age]"
+                      codePage="1252"
+                      dataType="str"
+                      length="500"
+                      name="applicant_age" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow DIM_APPLICATION_DATE\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[gender]"
+                      codePage="1252"
+                      dataType="str"
+                      length="500"
+                      name="gender" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow DIM_APPLICATION_DATE\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[number_of_dependents]"
+                      codePage="1252"
+                      dataType="str"
+                      length="500"
+                      name="number_of_dependents" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow DIM_APPLICATION_DATE\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[loan_status]"
+                      codePage="1252"
+                      dataType="str"
+                      length="500"
+                      name="loan_status" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow DIM_APPLICATION_DATE\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[fraud_flag]"
+                      codePage="1252"
+                      dataType="str"
+                      length="500"
+                      name="fraud_flag" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow DIM_APPLICATION_DATE\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[fraud_type]"
+                      codePage="1252"
+                      dataType="str"
+                      length="500"
+                      name="fraud_type" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Data Flow DIM_APPLICATION_DATE\Flat File Source.Outputs[Flat File Source Error Output]"
+                  isErrorOut="true"
+                  name="Flat File Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow DIM_APPLICATION_DATE\Flat File Source.Outputs[Flat File Source Error Output].Columns[Flat File Source Error Output Column]"
+                      codePage="1252"
+                      dataType="text"
+                      description="Flat File Source Error Output Column"
+                      lineageId="Package\Data Flow DIM_APPLICATION_DATE\Flat File Source.Outputs[Flat File Source Error Output].Columns[Flat File Source Error Output Column]"
+                      name="Flat File Source Error Output Column" />
+                    <outputColumn
+                      refId="Package\Data Flow DIM_APPLICATION_DATE\Flat File Source.Outputs[Flat File Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow DIM_APPLICATION_DATE\Flat File Source.Outputs[Flat File Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Data Flow DIM_APPLICATION_DATE\Flat File Source.Outputs[Flat File Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow DIM_APPLICATION_DATE\Flat File Source.Outputs[Flat File Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Data Flow DIM_APPLICATION_DATE.Paths[Derived Column Output]"
+              endId="Package\Data Flow DIM_APPLICATION_DATE\ADO NET Destination.Inputs[ADO NET Destination Input]"
+              name="Derived Column Output"
+              startId="Package\Data Flow DIM_APPLICATION_DATE\Derived Column.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\Data Flow DIM_APPLICATION_DATE.Paths[Flat File Source Output]"
+              endId="Package\Data Flow DIM_APPLICATION_DATE\Derived Column.Inputs[Derived Column Input]"
+              name="Flat File Source Output"
+              startId="Package\Data Flow DIM_APPLICATION_DATE\Flat File Source.Outputs[Flat File Source Output]" />
           </paths>
         </pipeline>
       </DTS:ObjectData>
@@ -14221,6 +15150,12 @@ where [refTable].[PROPERTY_OWNERSHIP_STATUS] = ?</property>
                       cachedName="FRAUD_KEY"
                       externalMetadataColumnId="Package\Data Flow FACT_LOAN_APPLICATION\FACT_LOAN_APPLICATION.Inputs[ADO NET Destination Input].ExternalColumns[FRAUD_KEY]"
                       lineageId="Package\Data Flow FACT_LOAN_APPLICATION\LOOKUP_FRAUD.Outputs[Lookup Match Output].Columns[FRAUD_KEY]" />
+                    <inputColumn
+                      refId="Package\Data Flow FACT_LOAN_APPLICATION\FACT_LOAN_APPLICATION.Inputs[ADO NET Destination Input].Columns[application_date_key]"
+                      cachedDataType="i4"
+                      cachedName="application_date_key"
+                      externalMetadataColumnId="Package\Data Flow FACT_LOAN_APPLICATION\FACT_LOAN_APPLICATION.Inputs[ADO NET Destination Input].ExternalColumns[APPLICATION_DATE_KEY]"
+                      lineageId="Package\Data Flow FACT_LOAN_APPLICATION\LOOKUP_DATE.Outputs[Lookup Match Output].Columns[application_date_key]" />
                   </inputColumns>
                   <externalMetadataColumns
                     isUsed="True">
@@ -14285,6 +15220,10 @@ where [refTable].[PROPERTY_OWNERSHIP_STATUS] = ?</property>
                       refId="Package\Data Flow FACT_LOAN_APPLICATION\FACT_LOAN_APPLICATION.Inputs[ADO NET Destination Input].ExternalColumns[FRAUD_KEY]"
                       dataType="i4"
                       name="FRAUD_KEY" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow FACT_LOAN_APPLICATION\FACT_LOAN_APPLICATION.Inputs[ADO NET Destination Input].ExternalColumns[APPLICATION_DATE_KEY]"
+                      dataType="i4"
+                      name="APPLICATION_DATE_KEY" />
                   </externalMetadataColumns>
                 </input>
               </inputs>
@@ -14389,12 +15328,11 @@ where [refTable].[PROPERTY_OWNERSHIP_STATUS] = ?</property>
                     </outputColumn>
                     <outputColumn
                       refId="Package\Data Flow FACT_LOAN_APPLICATION\Flat File Source.Outputs[Flat File Source Output].Columns[application_date]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
                       externalMetadataColumnId="Package\Data Flow FACT_LOAN_APPLICATION\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[application_date]"
-                      length="500"
+                      length="50"
                       lineageId="Package\Data Flow FACT_LOAN_APPLICATION\Flat File Source.Outputs[Flat File Source Output].Columns[application_date]"
                       name="application_date"
                       truncationRowDisposition="FailComponent">
@@ -15120,6 +16058,165 @@ where [refTable].[CUSTOMER_ID] = ?</property>
               </outputs>
             </component>
             <component
+              refId="Package\Data Flow FACT_LOAN_APPLICATION\LOOKUP_DATE"
+              componentClassID="Microsoft.Lookup"
+              contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
+              description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
+              name="LOOKUP_DATE"
+              usesDispositions="true"
+              version="6">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the SQL statement that generates the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">select * from [dbo].[DIM_APPLICATION_DATE]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a SQL statement that uses parameters to generate the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommandParam"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">select * from (select * from [dbo].[DIM_APPLICATION_DATE]) [refTable]
+where [refTable].[APPLICATION_DATE] = ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of connection used to access the reference dataset."
+                  name="ConnectionType"
+                  typeConverter="LookupConnectionType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the cache type of the lookup table."
+                  name="CacheType"
+                  typeConverter="CacheType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
+                  name="NoMatchBehavior"
+                  typeConverter="LookupNoMatchBehavior">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
+                  name="NoMatchCachePercentage">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
+                  name="MaxMemoryUsage">25</property>
+                <property
+                  dataType="System.Int64"
+                  description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
+                  name="MaxMemoryUsage64">25</property>
+                <property
+                  dataType="System.String"
+                  description="Indicates whether to reference metadata in an XML format."
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="APPLICATION_DATE" dataType="DT_WSTR" length="10" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Day" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Month" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Year" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="application_date_key" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                <property
+                  containsID="true"
+                  dataType="System.String"
+                  description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
+                  name="ParameterMap">#{Package\Data Flow FACT_LOAN_APPLICATION\Flat File Source.Outputs[Flat File Source Output].Columns[application_date]};</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
+                  name="TreatDuplicateKeysAsError">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Data Flow FACT_LOAN_APPLICATION\LOOKUP_DATE.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[LAPTOP-LTSU53RG.DW_Loan]"
+                  connectionManagerRefId="Package.ConnectionManagers[LAPTOP-LTSU53RG.DW_Loan]"
+                  description="Connection manager used to access lookup data."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Data Flow FACT_LOAN_APPLICATION\LOOKUP_DATE.Inputs[Lookup Input]"
+                  name="Lookup Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Data Flow FACT_LOAN_APPLICATION\LOOKUP_DATE.Inputs[Lookup Input].Columns[application_date]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="application_date"
+                      lineageId="Package\Data Flow FACT_LOAN_APPLICATION\Flat File Source.Outputs[Flat File Source Output].Columns[application_date]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">APPLICATION_DATE</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Data Flow FACT_LOAN_APPLICATION\LOOKUP_DATE.Outputs[Lookup Match Output]"
+                  errorOrTruncationOperation="Lookup"
+                  errorRowDisposition="FailComponent"
+                  exclusionGroup="1"
+                  name="Lookup Match Output"
+                  synchronousInputId="Package\Data Flow FACT_LOAN_APPLICATION\LOOKUP_DATE.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow FACT_LOAN_APPLICATION\LOOKUP_DATE.Outputs[Lookup Match Output].Columns[application_date_key]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Copy Column"
+                      lineageId="Package\Data Flow FACT_LOAN_APPLICATION\LOOKUP_DATE.Outputs[Lookup Match Output].Columns[application_date_key]"
+                      name="application_date_key"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">application_date_key</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Data Flow FACT_LOAN_APPLICATION\LOOKUP_DATE.Outputs[Lookup No Match Output]"
+                  description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
+                  exclusionGroup="1"
+                  name="Lookup No Match Output"
+                  synchronousInputId="Package\Data Flow FACT_LOAN_APPLICATION\LOOKUP_DATE.Inputs[Lookup Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Data Flow FACT_LOAN_APPLICATION\LOOKUP_DATE.Outputs[Lookup Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Lookup Error Output"
+                  synchronousInputId="Package\Data Flow FACT_LOAN_APPLICATION\LOOKUP_DATE.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow FACT_LOAN_APPLICATION\LOOKUP_DATE.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow FACT_LOAN_APPLICATION\LOOKUP_DATE.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Data Flow FACT_LOAN_APPLICATION\LOOKUP_DATE.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow FACT_LOAN_APPLICATION\LOOKUP_DATE.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
               refId="Package\Data Flow FACT_LOAN_APPLICATION\LOOKUP_FRAUD"
               componentClassID="Microsoft.Lookup"
               contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
@@ -15783,9 +16880,14 @@ where [refTable].[PURPOSE_OF_LOAN] = ?</property>
               startId="Package\Data Flow FACT_LOAN_APPLICATION\LOOKUP_CUSTOMER.Outputs[Lookup Match Output]" />
             <path
               refId="Package\Data Flow FACT_LOAN_APPLICATION.Paths[Lookup Match Output4]"
-              endId="Package\Data Flow FACT_LOAN_APPLICATION\FACT_LOAN_APPLICATION.Inputs[ADO NET Destination Input]"
+              endId="Package\Data Flow FACT_LOAN_APPLICATION\LOOKUP_DATE.Inputs[Lookup Input]"
               name="Lookup Match Output"
               startId="Package\Data Flow FACT_LOAN_APPLICATION\LOOKUP_FRAUD.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\Data Flow FACT_LOAN_APPLICATION.Paths[Lookup Match Output5]"
+              endId="Package\Data Flow FACT_LOAN_APPLICATION\FACT_LOAN_APPLICATION.Inputs[ADO NET Destination Input]"
+              name="Lookup Match Output"
+              startId="Package\Data Flow FACT_LOAN_APPLICATION\LOOKUP_DATE.Outputs[Lookup Match Output]" />
           </paths>
         </pipeline>
       </DTS:ObjectData>
@@ -15864,6 +16966,14 @@ where [refTable].[PURPOSE_OF_LOAN] = ?</property>
       DTS:LogicalAnd="True"
       DTS:ObjectName="Constraint 8"
       DTS:To="Package\Data Flow FACT_LOAN_APPLICATION" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 9]"
+      DTS:CreationName=""
+      DTS:DTSID="{FA4ECA92-49C3-49B3-B555-6862DBC525D3}"
+      DTS:From="Package\Data Flow DIM_APPLICATION_DATE"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 9"
+      DTS:To="Package\Data Flow FACT_LOAN_APPLICATION" />
   </DTS:PrecedenceConstraints>
   <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
 <!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
@@ -15889,6 +16999,10 @@ where [refTable].[PURPOSE_OF_LOAN] = ?</property>
           Size="225.6,41.6"
           Id="Package\Data Flow DIM_EMPLOYMENT"
           TopLeft="396.333311979143,159.766665593915" />
+        <NodeLayout
+          Size="188.8,41.6"
+          Id="Package\Data Flow DIM_FRAUD"
+          TopLeft="0.500000273188078,593.166665684316" />
         <NodeLayout
           Size="197.6,41.6"
           Id="Package\Data Flow DIM_GENDER"
@@ -16173,10 +17287,6 @@ where [refTable].[PURPOSE_OF_LOAN] = ?</property>
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
-        <NodeLayout
-          Size="188.8,41.6"
-          Id="Package\Data Flow DIM_FRAUD"
-          TopLeft="0.500000273188078,593.166665684316" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 8]"
           TopLeft="94.9000002731881,634.766665684316">
@@ -16203,6 +17313,32 @@ where [refTable].[PURPOSE_OF_LOAN] = ?</property>
                     Point3="80.599992988176,40.1522373544369" />
                   <mssgle:LineSegment
                     End="80.599992988176,41.4333313686318" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="255.2,41.6"
+          Id="Package\Data Flow DIM_APPLICATION_DATE"
+          TopLeft="663.566631061172,676.233330627349" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 9]"
+          TopLeft="663.566631061172,700.766663840148">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-270.733304466474,0"
+              Start="0,0"
+              End="-263.233304466474,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="-263.233304466474,0" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -16923,6 +18059,100 @@ where [refTable].[PURPOSE_OF_LOAN] = ?</property>
     </Properties>
   </PipelineComponentMetadata>
   <TaskHost
+    design-time-name="Package\Data Flow DIM_FRAUD">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="97.6,41.6"
+          Id="Package\Data Flow DIM_FRAUD\Sort"
+          TopLeft="65.5,65.5" />
+        <NodeLayout
+          Size="151.2,41.6"
+          Id="Package\Data Flow DIM_FRAUD\Flat File Source"
+          TopLeft="5.5,5.5" />
+        <NodeLayout
+          Size="179.2,41.6"
+          Id="Package\Data Flow DIM_FRAUD\ADO NET Destination"
+          TopLeft="154.666660155687,137.766665955517" />
+        <EdgeLayout
+          Id="Package\Data Flow DIM_FRAUD.Paths[Sort Output]"
+          TopLeft="114.3,107.1">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="129.966660155687,30.666665955517"
+              Start="0,0"
+              End="129.966660155687,23.166665955517">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,11.3333329777585" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,11.3333329777585"
+                    Point2="0,15.3333329777585"
+                    Point3="4,15.3333329777585" />
+                  <mssgle:LineSegment
+                    End="125.966660155687,15.3333329777585" />
+                  <mssgle:CubicBezierSegment
+                    Point1="125.966660155687,15.3333329777585"
+                    Point2="129.966660155687,15.3333329777585"
+                    Point3="129.966660155687,19.3333329777585" />
+                  <mssgle:LineSegment
+                    End="129.966660155687,23.166665955517" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Data Flow DIM_FRAUD.Paths[Flat File Source Output]"
+          TopLeft="81.1,47.1">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-15.6,39.2"
+              Start="0,0"
+              End="-8.09999999999999,39.2">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,35.2" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,35.2"
+                    Point2="0,39.2"
+                    Point3="-4,39.2" />
+                  <mssgle:LineSegment
+                    End="-8.09999999999999,39.2" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Data Flow DIM_FRAUD\ADO NET Destination">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
     design-time-name="Package\Data Flow DIM_GENDER">
     <LayoutInfo>
       <GraphLayout
@@ -17432,6 +18662,14 @@ where [refTable].[PURPOSE_OF_LOAN] = ?</property>
           Id="Package\Data Flow FACT_LOAN_APPLICATION\LOOKUP_CUSTOMER"
           TopLeft="668.999990031123,263.999996066094" />
         <NodeLayout
+          Size="202.4,41.6"
+          Id="Package\Data Flow FACT_LOAN_APPLICATION\LOOKUP_LOAN_STATUS"
+          TopLeft="522.499993190169,194.49999807775" />
+        <NodeLayout
+          Size="178.4,41.6"
+          Id="Package\Data Flow FACT_LOAN_APPLICATION\LOOKUP_PURPOSE"
+          TopLeft="83.4999988377095,88.4999987632036" />
+        <NodeLayout
           Size="188.8,41.6"
           Id="Package\Data Flow FACT_LOAN_APPLICATION\LOOKUP_LOAN_TYPE"
           TopLeft="287.499996244907,139.499998450279" />
@@ -17440,13 +18678,45 @@ where [refTable].[PURPOSE_OF_LOAN] = ?</property>
           Id="Package\Data Flow FACT_LOAN_APPLICATION\Flat File Source"
           TopLeft="5.5,5.5" />
         <NodeLayout
-          Size="202.4,41.6"
-          Id="Package\Data Flow FACT_LOAN_APPLICATION\LOOKUP_LOAN_STATUS"
-          TopLeft="522.499993190169,194.49999807775" />
-        <NodeLayout
-          Size="178.4,41.6"
-          Id="Package\Data Flow FACT_LOAN_APPLICATION\LOOKUP_PURPOSE"
-          TopLeft="83.4999988377095,88.4999987632036" />
+          Size="163.2,41.6"
+          Id="Package\Data Flow FACT_LOAN_APPLICATION\LOOKUP_FRAUD"
+          TopLeft="817.99998781085,339.399995693564" />
+        <EdgeLayout
+          Id="Package\Data Flow FACT_LOAN_APPLICATION.Paths[Lookup Match Output3]"
+          TopLeft="762.599990031123,305.599996066094">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="136.999997779727,33.7999996274704"
+              Start="0,0"
+              End="136.999997779727,26.2999996274704">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,12.8999998137352" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,12.8999998137352"
+                    Point2="0,16.8999998137352"
+                    Point3="4,16.8999998137352" />
+                  <mssgle:LineSegment
+                    End="132.999997779727,16.8999998137352" />
+                  <mssgle:CubicBezierSegment
+                    Point1="132.999997779727,16.8999998137352"
+                    Point2="136.999997779727,16.8999998137352"
+                    Point3="136.999997779727,20.8999998137352" />
+                  <mssgle:LineSegment
+                    End="136.999997779727,26.2999996274704" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="20.3086121711137,21.8999998137352,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
         <EdgeLayout
           Id="Package\Data Flow FACT_LOAN_APPLICATION.Paths[Lookup Match Output2]"
           TopLeft="623.699993190169,236.09999807775">
@@ -17590,82 +18860,70 @@ where [refTable].[PURPOSE_OF_LOAN] = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <NodeLayout
-          Size="163.2,41.6"
-          Id="Package\Data Flow FACT_LOAN_APPLICATION\LOOKUP_FRAUD"
-          TopLeft="817.99998781085,339.399995693564" />
+          Size="155.2,41.6"
+          Id="Package\Data Flow FACT_LOAN_APPLICATION\LOOKUP_DATE"
+          TopLeft="528.999992117286,384.799995112419" />
         <EdgeLayout
-          Id="Package\Data Flow FACT_LOAN_APPLICATION.Paths[Lookup Match Output3]"
-          TopLeft="762.599990031123,305.599996066094">
+          Id="Package\Data Flow FACT_LOAN_APPLICATION.Paths[Lookup Match Output4]"
+          TopLeft="817.99998781085,360.199995693564">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="136.999997779727,33.7999996274704"
+              EndConnector="-133.799995693564,45.3999994188553"
               Start="0,0"
-              End="136.999997779727,26.2999996274704">
+              End="-126.299995693564,45.3999994188553">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,12.8999998137352" />
+                    End="-62.8999978467821,0" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,12.8999998137352"
-                    Point2="0,16.8999998137352"
-                    Point3="4,16.8999998137352" />
+                    Point1="-62.8999978467821,0"
+                    Point2="-66.8999978467821,0"
+                    Point3="-66.8999978467821,4" />
                   <mssgle:LineSegment
-                    End="132.999997779727,16.8999998137352" />
+                    End="-66.8999978467821,41.3999994188553" />
                   <mssgle:CubicBezierSegment
-                    Point1="132.999997779727,16.8999998137352"
-                    Point2="136.999997779727,16.8999998137352"
-                    Point3="136.999997779727,20.8999998137352" />
+                    Point1="-66.8999978467821,41.3999994188553"
+                    Point2="-66.8999978467821,45.3999994188553"
+                    Point3="-70.8999978467821,45.3999994188553" />
                   <mssgle:LineSegment
-                    End="136.999997779727,26.2999996274704" />
+                    End="-126.299995693564,45.3999994188553" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
-              BoundingBox="20.3086121711137,21.8999998137352,96.3827734375,11.609375"
+              BoundingBox="-115.091384565532,-17.609375,96.3827734375,11.609375"
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <NodeLayout
           Size="214.4,41.6"
           Id="Package\Data Flow FACT_LOAN_APPLICATION\FACT_LOAN_APPLICATION"
-          TopLeft="489.999992698431,417.399994650483" />
+          TopLeft="67.9999989867211,387.599995261431" />
         <EdgeLayout
-          Id="Package\Data Flow FACT_LOAN_APPLICATION.Paths[Lookup Match Output4]"
-          TopLeft="899.59998781085,380.999995693564">
+          Id="Package\Data Flow FACT_LOAN_APPLICATION.Paths[Lookup Match Output5]"
+          TopLeft="528.999992117286,406.999995186925">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="-302.399995112419,36.3999989569187"
+              EndConnector="-246.599993130565,0"
               Start="0,0"
-              End="-302.399995112419,28.8999989569187">
+              End="-239.099993130565,0">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,14.1999994784593" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,14.1999994784593"
-                    Point2="0,18.1999994784593"
-                    Point3="-4,18.1999994784593" />
-                  <mssgle:LineSegment
-                    End="-298.399995112419,18.1999994784593" />
-                  <mssgle:CubicBezierSegment
-                    Point1="-298.399995112419,18.1999994784593"
-                    Point2="-302.399995112419,18.1999994784593"
-                    Point3="-302.399995112419,22.1999994784593" />
-                  <mssgle:LineSegment
-                    End="-302.399995112419,28.8999989569187" />
+                    End="-239.099993130565,0" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
-              BoundingBox="-199.39138427496,23.1999994784593,96.3827734375,11.609375"
+              BoundingBox="-167.741383284032,5,96.3827734375,11.609375"
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
@@ -17684,29 +18942,6 @@ where [refTable].[PURPOSE_OF_LOAN] = ?</property>
         <Name>UsedTableName</Name>
         <Value
           type="q3:string">[dbo].[DIM_CUSTOMER]</Value>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q4:string">0</Value>
-      </Property>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
-    design-time-name="Package\Data Flow FACT_LOAN_APPLICATION\LOOKUP_LOAN_TYPE">
-    <Properties>
-      <Property>
-        <Name>OverwriteParamsSQLProp</Name>
-        <Value
-          type="q2:string">false</Value>
-      </Property>
-      <Property>
-        <Name>UsedTableName</Name>
-        <Value
-          type="q3:string">[dbo].[DIM_LOAN_TYPE]</Value>
       </Property>
       <Property>
         <Name>TableInfoObjectType</Name>
@@ -17764,43 +18999,95 @@ where [refTable].[PURPOSE_OF_LOAN] = ?</property>
       </Property>
     </Properties>
   </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Data Flow FACT_LOAN_APPLICATION\LOOKUP_LOAN_TYPE">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:string">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string">[dbo].[DIM_LOAN_TYPE]</Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:string">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Data Flow FACT_LOAN_APPLICATION\LOOKUP_FRAUD">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:string">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string">[dbo].[DIM_FRAUD]</Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:string">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
   <TaskHost
-    design-time-name="Package\Data Flow DIM_FRAUD">
+    design-time-name="Package\Data Flow DIM_APPLICATION_DATE">
     <LayoutInfo>
       <GraphLayout
         Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
           Size="151.2,41.6"
-          Id="Package\Data Flow DIM_FRAUD\Flat File Source"
+          Id="Package\Data Flow DIM_APPLICATION_DATE\Flat File Source"
           TopLeft="5.5,5.5" />
         <NodeLayout
           Size="179.2,41.6"
-          Id="Package\Data Flow DIM_FRAUD\ADO NET Destination"
-          TopLeft="154.666660155687,137.766665955517" />
+          Id="Package\Data Flow DIM_APPLICATION_DATE\ADO NET Destination"
+          TopLeft="142.166660838657,160.299999132156" />
         <NodeLayout
-          Size="97.6,41.6"
-          Id="Package\Data Flow DIM_FRAUD\Sort"
-          TopLeft="65.5,65.5" />
+          Size="152.8,41.6"
+          Id="Package\Data Flow DIM_APPLICATION_DATE\Derived Column"
+          TopLeft="73.8333328780201,77.6333332489596" />
         <EdgeLayout
-          Id="Package\Data Flow DIM_FRAUD.Paths[Flat File Source Output]"
+          Id="Package\Data Flow DIM_APPLICATION_DATE.Paths[Flat File Source Output]"
           TopLeft="81.1,47.1">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="-15.6,39.2"
+              EndConnector="69.1333328780201,30.5333332489596"
               Start="0,0"
-              End="-8.09999999999999,39.2">
+              End="69.1333328780201,23.0333332489596">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,35.2" />
+                    End="0,11.2666666244798" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,35.2"
-                    Point2="0,39.2"
-                    Point3="-4,39.2" />
+                    Point1="0,11.2666666244798"
+                    Point2="0,15.2666666244798"
+                    Point3="4,15.2666666244798" />
                   <mssgle:LineSegment
-                    End="-8.09999999999999,39.2" />
+                    End="65.1333328780201,15.2666666244798" />
+                  <mssgle:CubicBezierSegment
+                    Point1="65.1333328780201,15.2666666244798"
+                    Point2="69.1333328780201,15.2666666244798"
+                    Point3="69.1333328780201,19.2666666244798" />
+                  <mssgle:LineSegment
+                    End="69.1333328780201,23.0333332489596" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -17810,31 +19097,31 @@ where [refTable].[PURPOSE_OF_LOAN] = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Data Flow DIM_FRAUD.Paths[Sort Output]"
-          TopLeft="114.3,107.1">
+          Id="Package\Data Flow DIM_APPLICATION_DATE.Paths[Derived Column Output]"
+          TopLeft="150.23333287802,119.23333324896">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="129.966660155687,30.666665955517"
+              EndConnector="81.533327960637,41.0666658831967"
               Start="0,0"
-              End="129.966660155687,23.166665955517">
+              End="81.533327960637,33.5666658831967">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,11.3333329777585" />
+                    End="0,16.5333329415984" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,11.3333329777585"
-                    Point2="0,15.3333329777585"
-                    Point3="4,15.3333329777585" />
+                    Point1="0,16.5333329415984"
+                    Point2="0,20.5333329415984"
+                    Point3="4,20.5333329415984" />
                   <mssgle:LineSegment
-                    End="125.966660155687,15.3333329777585" />
+                    End="77.533327960637,20.5333329415984" />
                   <mssgle:CubicBezierSegment
-                    Point1="125.966660155687,15.3333329777585"
-                    Point2="129.966660155687,15.3333329777585"
-                    Point3="129.966660155687,19.3333329777585" />
+                    Point1="77.533327960637,20.5333329415984"
+                    Point2="81.533327960637,20.5333329415984"
+                    Point3="81.533327960637,24.5333329415984" />
                   <mssgle:LineSegment
-                    End="129.966660155687,23.166665955517" />
+                    End="81.533327960637,33.5666658831967" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -17847,7 +19134,7 @@ where [refTable].[PURPOSE_OF_LOAN] = ?</property>
     </LayoutInfo>
   </TaskHost>
   <PipelineComponentMetadata
-    design-time-name="Package\Data Flow DIM_FRAUD\ADO NET Destination">
+    design-time-name="Package\Data Flow DIM_APPLICATION_DATE\ADO NET Destination">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -17855,7 +19142,7 @@ where [refTable].[PURPOSE_OF_LOAN] = ?</property>
     </Properties>
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
-    design-time-name="Package\Data Flow FACT_LOAN_APPLICATION\LOOKUP_FRAUD">
+    design-time-name="Package\Data Flow FACT_LOAN_APPLICATION\LOOKUP_DATE">
     <Properties>
       <Property>
         <Name>OverwriteParamsSQLProp</Name>
@@ -17865,7 +19152,7 @@ where [refTable].[PURPOSE_OF_LOAN] = ?</property>
       <Property>
         <Name>UsedTableName</Name>
         <Value
-          type="q3:string">[dbo].[DIM_FRAUD]</Value>
+          type="q3:string">[dbo].[DIM_APPLICATION_DATE]</Value>
       </Property>
       <Property>
         <Name>TableInfoObjectType</Name>

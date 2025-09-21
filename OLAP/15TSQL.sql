@@ -1,0 +1,140 @@
+﻿/* 1) Lãi suất trung bình theo loại vay */
+SELECT lt.LOAN_TYPE, AVG(f.INTEREST_RATE_OFFERED) AS AvgInterest
+FROM FACT_LOAN_APPLICATION f
+JOIN DIM_LOAN_TYPE lt ON f.LOAN_TYPE_KEY = lt.LOAN_TYPE_KEY
+GROUP BY lt.LOAN_TYPE
+ORDER BY AvgInterest DESC;
+
+/* 2) Top 10 khoản vay lớn nhất (kèm khách hàng, loại vay) */
+SELECT TOP (10)
+       f.APPLICATION_ID, f.LOAN_AMOUNT_REQUESTED, lt.LOAN_TYPE, c.CUSTOMER_ID
+FROM FACT_LOAN_APPLICATION f
+JOIN DIM_LOAN_TYPE lt ON f.LOAN_TYPE_KEY = lt.LOAN_TYPE_KEY
+JOIN DIM_CUSTOMER c   ON f.CUSTOMER_KEY  = c.CUSTOMER_KEY
+ORDER BY f.LOAN_AMOUNT_REQUESTED DESC;
+
+/* 3) Phân bổ hồ sơ theo band CIBIL và trạng thái (PIVOT) */
+WITH base AS (
+  SELECT cb.CIBIL_BAND_NAME, ls.LOAN_STATUS
+  FROM FACT_LOAN_APPLICATION f
+  JOIN DIM_CUSTOMER c   ON f.CUSTOMER_KEY    = c.CUSTOMER_KEY
+  JOIN DIM_CIBIL_BAND cb ON c.CIBIL_BAND_KEY = cb.CIBIL_BAND_KEY
+  JOIN DIM_LOAN_STATUS ls ON f.LOAN_STATUS_KEY= ls.LOAN_STATUS_KEY
+)
+SELECT CIBIL_BAND_NAME, [Approved], [Declined], [Fraudulent - Detected], [Fraudulent - Undetected]
+FROM base
+PIVOT (COUNT(LOAN_STATUS) FOR LOAN_STATUS IN ([Approved],[Declined],[Fraudulent - Detected], [Fraudulent - Undetected])) p
+ORDER BY CIBIL_BAND_NAME;
+
+/* 4) ROLLUP: Tổng số tiền vay theo Loại vay → Trạng thái → Tổng cộng */
+SELECT lt.LOAN_TYPE, ls.LOAN_STATUS,
+       SUM(f.LOAN_AMOUNT_REQUESTED) AS TotalAmount
+FROM FACT_LOAN_APPLICATION f
+JOIN DIM_LOAN_TYPE lt   ON f.LOAN_TYPE_KEY   = lt.LOAN_TYPE_KEY
+JOIN DIM_LOAN_STATUS ls ON f.LOAN_STATUS_KEY = ls.LOAN_STATUS_KEY
+GROUP BY ROLLUP (lt.LOAN_TYPE, ls.LOAN_STATUS);
+
+/* 5) WINDOW: Xếp hạng khách hàng theo thu nhập trong cùng Tỉnh/Thành  (có thể chỉnh cụ thể tỉnh thành sau) **/
+SELECT a.STATE, c.CUSTOMER_ID, c.MONTHLY_INCOME,
+       RANK() OVER (PARTITION BY a.STATE ORDER BY c.MONTHLY_INCOME DESC) AS IncomeRankInState
+FROM DIM_CUSTOMER c
+JOIN DIM_ADDRESS a ON c.ADDRESS_KEY = a.ADDRESS_KEY;
+
+/* 6) GROUPING SETS: Tổng tiền vay theo (Loại vay), (Trạng thái), và (Loại vay, Trạng thái) */
+SELECT lt.LOAN_TYPE, ls.LOAN_STATUS, SUM(f.LOAN_AMOUNT_REQUESTED) AS TotalAmount
+FROM FACT_LOAN_APPLICATION f
+JOIN DIM_LOAN_TYPE lt   ON f.LOAN_TYPE_KEY = lt.LOAN_TYPE_KEY
+JOIN DIM_LOAN_STATUS ls ON f.LOAN_STATUS_KEY = ls.LOAN_STATUS_KEY
+GROUP BY GROUPING SETS ((lt.LOAN_TYPE, ls.LOAN_STATUS), (lt.LOAN_TYPE), (ls.LOAN_STATUS));
+
+/* 7) Lãi suất trung bình theo Thành phố và Loại vay (2 chiều) */
+SELECT a.CITY, lt.LOAN_TYPE, AVG(f.INTEREST_RATE_OFFERED) AS AvgRate
+FROM FACT_LOAN_APPLICATION f
+JOIN DIM_CUSTOMER c ON f.CUSTOMER_KEY = c.CUSTOMER_KEY
+JOIN DIM_ADDRESS a  ON c.ADDRESS_KEY  = a.ADDRESS_KEY
+JOIN DIM_LOAN_TYPE lt ON f.LOAN_TYPE_KEY = lt.LOAN_TYPE_KEY
+GROUP BY a.CITY, lt.LOAN_TYPE
+ORDER BY a.CITY, AvgRate DESC;
+
+/* 8) Độ tuổi trung bình người nộp theo mục đích vay */
+SELECT pu.PURPOSE_OF_LOAN, AVG(CAST(f.APPLICANT_AGE AS DECIMAL(10,2))) AS AvgAge
+FROM FACT_LOAN_APPLICATION f
+JOIN DIM_PURPOSE pu ON f.PURPOSE_KEY = pu.PURPOSE_KEY
+GROUP BY pu.PURPOSE_OF_LOAN
+ORDER BY AvgAge DESC;
+
+/* 9) Xếp hạng mục đích cho vay được chấp thuận nhiều nhất */
+SELECT TOP (10)
+    pu.PURPOSE_OF_LOAN,
+    COUNT(*) AS Approved_Count
+FROM FACT_LOAN_APPLICATION f
+JOIN DIM_PURPOSE pu     ON f.PURPOSE_KEY     = pu.PURPOSE_KEY
+JOIN DIM_LOAN_STATUS ls ON f.LOAN_STATUS_KEY = ls.LOAN_STATUS_KEY
+WHERE ls.LOAN_STATUS = 'Approved'
+GROUP BY pu.PURPOSE_OF_LOAN
+ORDER BY Approved_Count DESC;
+
+/* 10) Xếp hạng kiểu vay được chấp thuận nhiều nhất */
+SELECT TOP (10)
+    lt.LOAN_TYPE,
+    COUNT(*) AS Approved_Count
+FROM FACT_LOAN_APPLICATION f
+JOIN DIM_LOAN_TYPE lt   ON f.LOAN_TYPE_KEY   = lt.LOAN_TYPE_KEY
+JOIN DIM_LOAN_STATUS ls ON f.LOAN_STATUS_KEY = ls.LOAN_STATUS_KEY
+WHERE ls.LOAN_STATUS = 'Approved'
+GROUP BY lt.LOAN_TYPE
+ORDER BY Approved_Count DESC;
+
+/* 11) Xếp hạng trạng thái nghề nghiệp được chấp thuận cho vay nhiều nhất */
+SELECT TOP (10)
+    e.EMPLOYMENT_STATUS,
+    COUNT(*) AS Approved_Count
+FROM FACT_LOAN_APPLICATION f
+JOIN DIM_CUSTOMER c     ON f.CUSTOMER_KEY = c.CUSTOMER_KEY
+JOIN DIM_EMPLOYMENT e   ON c.EMPLOYMENT_KEY = e.EMPLOYMENT_KEY
+JOIN DIM_LOAN_STATUS ls ON f.LOAN_STATUS_KEY = ls.LOAN_STATUS_KEY
+WHERE ls.LOAN_STATUS = 'Approved'
+GROUP BY e.EMPLOYMENT_STATUS
+ORDER BY Approved_Count DESC;
+
+/* 12) Xếp hạng mục đích đi vay nhiều nhất */
+SELECT TOP (10)
+    pu.PURPOSE_OF_LOAN,
+    COUNT(*) AS Application_Count
+FROM FACT_LOAN_APPLICATION f
+JOIN DIM_PURPOSE pu ON f.PURPOSE_KEY = pu.PURPOSE_KEY
+GROUP BY pu.PURPOSE_OF_LOAN
+ORDER BY Application_Count DESC, pu.PURPOSE_OF_LOAN;
+
+/* 13) Xếp hạng trạng thái nghề nghiệp đi vay nhiều nhất */
+SELECT TOP (10)
+    e.EMPLOYMENT_STATUS,
+    COUNT(*) AS Application_Count
+FROM FACT_LOAN_APPLICATION f
+JOIN DIM_CUSTOMER c     ON f.CUSTOMER_KEY    = c.CUSTOMER_KEY
+JOIN DIM_EMPLOYMENT e   ON c.EMPLOYMENT_KEY  = e.EMPLOYMENT_KEY
+GROUP BY e.EMPLOYMENT_STATUS
+ORDER BY Application_Count DESC, e.EMPLOYMENT_STATUS;
+
+/* 14) Xếp hạng loại vay có nhiều hồ sơ nhất */
+SELECT TOP (10)
+    lt.LOAN_TYPE,
+    COUNT(*) AS Application_Count
+FROM FACT_LOAN_APPLICATION f
+JOIN DIM_LOAN_TYPE lt   ON f.LOAN_TYPE_KEY   = lt.LOAN_TYPE_KEY
+GROUP BY lt.LOAN_TYPE
+ORDER BY Application_Count DESC, lt.LOAN_TYPE;
+
+/* 15) Xếp hạng tháng có nhu cầu đi vay nhiều nhất */
+SELECT
+    d.[Month],
+    DATENAME(MONTH, d.APPLICATION_DATE) AS MonthName,
+    COUNT(*) AS Application_Count,
+    RANK() OVER (ORDER BY COUNT(*) DESC) AS Rank_ByMonthOfYear
+FROM FACT_LOAN_APPLICATION f
+JOIN DIM_APPLICATION_DATE d
+  ON f.APPLICATION_DATE_KEY = d.APPLICATION_DATE_KEY
+GROUP BY d.[Month], DATENAME(MONTH, d.APPLICATION_DATE)
+ORDER BY Application_Count DESC, d.[Month];
+
+
