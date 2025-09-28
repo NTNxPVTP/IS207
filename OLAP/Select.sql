@@ -12,6 +12,7 @@ select * from DIM_LOAN_STATUS;
 select * from FACT_LOAN_APPLICATION;
 select * from DIM_FRAUD;
 select * from DIM_APPLICATION_DATE;
+select * from DIM_FRAUD_TYPE;
 select distinct(YEAR) from DIM_APPLICATION_DATE;
 
 SELECT 'DIM_EMPLOYMENT'        AS [TableName], COUNT(*) AS [RowCount] FROM dbo.DIM_EMPLOYMENT

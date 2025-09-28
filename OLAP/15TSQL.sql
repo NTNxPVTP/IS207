@@ -34,11 +34,16 @@ JOIN DIM_LOAN_TYPE lt   ON f.LOAN_TYPE_KEY   = lt.LOAN_TYPE_KEY
 JOIN DIM_LOAN_STATUS ls ON f.LOAN_STATUS_KEY = ls.LOAN_STATUS_KEY
 GROUP BY ROLLUP (lt.LOAN_TYPE, ls.LOAN_STATUS);
 
-/* 5) WINDOW: Xếp hạng khách hàng theo thu nhập trong cùng Tỉnh/Thành  (có thể chỉnh cụ thể tỉnh thành sau) **/
-SELECT a.STATE, c.CUSTOMER_ID, c.MONTHLY_INCOME,
-       RANK() OVER (PARTITION BY a.STATE ORDER BY c.MONTHLY_INCOME DESC) AS IncomeRankInState
-FROM DIM_CUSTOMER c
-JOIN DIM_ADDRESS a ON c.ADDRESS_KEY = a.ADDRESS_KEY;
+/* 5) Xếp hạng các bang có nhu cầu đi vay nhiều nhất **/
+SELECT TOP (10)
+  a.STATE,
+  COUNT(*)                      AS Application_Count,
+  SUM(f.LOAN_AMOUNT_REQUESTED)  AS Total_Amount
+FROM FACT_LOAN_APPLICATION f
+JOIN DIM_CUSTOMER c ON f.CUSTOMER_KEY = c.CUSTOMER_KEY
+JOIN DIM_ADDRESS a ON c.ADDRESS_KEY = a.ADDRESS_KEY
+GROUP BY a.STATE
+ORDER BY Application_Count DESC, Total_Amount DESC;
 
 /* 6) GROUPING SETS: Tổng tiền vay theo (Loại vay), (Trạng thái), và (Loại vay, Trạng thái) */
 SELECT lt.LOAN_TYPE, ls.LOAN_STATUS, SUM(f.LOAN_AMOUNT_REQUESTED) AS TotalAmount
